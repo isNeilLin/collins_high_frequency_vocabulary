@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:collins_vocabulary/model/word.dart';
 import 'package:collins_vocabulary/common/phmp3.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RememberVocab extends StatefulWidget {
-  int level;
-  Map<String,bool> options;
-  RememberVocab({this.level,this.options});
+  SharedPreferences prefs;
+  RememberVocab({Key key,this.prefs}) : super(key:key);
   @override
   RememberVocabState createState(){
-    return new RememberVocabState(level: level,options: options);
+    return new RememberVocabState();
   }
 }
 
 class RememberVocabState extends State<RememberVocab> {
-  int level;
   int currentIndex = 0;
   Word currentItem;
   List list = [];
-  Map<String,bool> options;
-  RememberVocabState({this.level,this.options});
+  int level;
+
+  @override
+  initState() {
+    super.initState();
+    level = widget.prefs.getInt('level');
+  }
 
   Widget _builder(context, snapshot){
     if(snapshot.hasData){
@@ -181,9 +184,15 @@ class RememberVocabState extends State<RememberVocab> {
 
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder(
-        future: new Word().getList(level),
-        builder: _builder
+    return new Scaffold(
+      appBar: new AppBar(
+        elevation: 0.0,
+        title: new Text('柯林斯高频词汇'),
+      ),
+      body: new FutureBuilder(
+          future: new Word().getList(level),
+          builder: _builder
+      ),
     );
   }
 }

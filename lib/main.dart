@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:collins_vocabulary/components/list.dart';
 import 'package:collins_vocabulary/components/remember.dart';
 import 'package:collins_vocabulary/components/mine.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(new MyApp());
 
@@ -29,19 +30,27 @@ class HomePage extends StatefulWidget {
   }
 }
 class HomePageState extends State<HomePage>{
-  Widget TabView;
+  Widget TabView = null;
+  SharedPreferences prefs;
   int currentIndex = 0;
   int level = 5;
   Map<String,bool> options = {
 
   };
-
+  
+  void initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setInt('level', 5);
+    prefs.setInt('count', 50);
+    setState((){
+      TabView = new RememberVocab(prefs:prefs);
+    });
+  }
+  
   @override
   void initState() {
     super.initState();
-    setState((){
-      TabView = new RememberVocab(level:level,options:options);
-    });
+    initPrefs();
   }
   @override
   void dispose() {
@@ -53,13 +62,13 @@ class HomePageState extends State<HomePage>{
         currentIndex = index;
         switch(currentIndex) {
           case 0:
-            TabView = new RememberVocab(level:level,options:options);
+            TabView = new RememberVocab(prefs:prefs);
             break;
           case 1:
-            TabView = new VocabularyList(level:level,options:options);
+            TabView = new WordList(prefs:prefs);
             break;
           case 2:
-            TabView = new Mine();
+            TabView = new Mine(prefs:prefs);
             break;
           default:
             TabView = new RememberVocab();
@@ -69,10 +78,6 @@ class HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        elevation: 0.0,
-        title: new Text('柯林斯高频词汇'),
-      ),
       body: TabView,
       bottomNavigationBar: new BottomNavigationBar(
           currentIndex: currentIndex,

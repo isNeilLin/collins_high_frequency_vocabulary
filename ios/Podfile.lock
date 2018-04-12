@@ -2,20 +2,26 @@ PODS:
   - audioplayer (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - shared_preferences (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - audioplayer (from `Pods/.symlinks/plugins/audioplayer-0.4.0/ios`)
   - Flutter (from `Pods/.symlinks/flutter/ios`)
+  - shared_preferences (from `Pods/.symlinks/plugins/shared_preferences-0.4.1/ios`)
 
 EXTERNAL SOURCES:
   audioplayer:
     :path: Pods/.symlinks/plugins/audioplayer-0.4.0/ios
   Flutter:
     :path: Pods/.symlinks/flutter/ios
+  shared_preferences:
+    :path: Pods/.symlinks/plugins/shared_preferences-0.4.1/ios
 
 SPEC CHECKSUMS:
   audioplayer: 3cc64e4f5f3e231c715c8923a9bc26a19dc5da3b
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
 
 PODFILE CHECKSUM: 0420ab312a523ae0eecfb1fc19ea51dd82cc17c7
 
