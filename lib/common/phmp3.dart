@@ -5,46 +5,74 @@ class PhMp3 extends StatefulWidget {
   final src;
   final text;
   final color;
-  PhMp3({this.src,this.text,this.color});
+  final autoplay;
+  PhMp3({this.src,this.text,this.color,this.autoplay});
   @override
   PhMp3State createState() => new PhMp3State();
 }
 
 class PhMp3State extends State<PhMp3>{
   bool playing = false;
-  AudioPlayer audioPlayer = new AudioPlayer();
+  AudioPlayer audioPlayer;
 
   @override
   void initState() {
     super.initState();
+    audioPlayer = new AudioPlayer();
     audioPlayer.setErrorHandler((msg) {
       print('audioPlayer error : $msg');
     });
+    audioPlayer.setCompletionHandler(() {
+      print('complete');
+      stop();
+    });
+    if(widget.autoplay){
+      play(widget.src);
+    }
   }
 
-  play(url) async {
-    final result = await audioPlayer.play(url);
-    if (result == 1) setState(() => playing = true);
+  @override
+  void didUpdateWidget(Widget ph3){
+    super.didUpdateWidget(ph3);
+    if(widget.autoplay){
+      play(widget.src);
+    }
   }
 
-  pause() async {
-    final result = await audioPlayer.pause();
-    if (result == 1) setState(() => playing = false);
+  @override
+  void dispose(){
+    setState((){
+      playing = false;
+    });
+    super.dispose();
+  }
+
+  void play(url) async {
+    try{
+      final result = await audioPlayer.play(url);
+      if (result == 1) setState(() => playing = true);
+    }catch(e){
+      print(widget.src);
+      stop();
+    }
+  }
+
+  void stop() async {
+    print('stop');
+    try{
+      await audioPlayer.stop();
+      setState(() => playing = false);
+    }catch(e){
+      print(e);
+      setState(() => playing = false);
+    }
   }
 
   void audioController(url){
     if(playing){
-      try{
-        pause();
-      }catch(e){
-        print(e);
-      }
+      stop();
     }else{
-      try{
-        play(url);
-      }catch(e){
-        print(e);
-      }
+      play(url);
     }
   }
 
