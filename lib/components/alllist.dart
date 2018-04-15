@@ -30,7 +30,7 @@ class VocabularyListState extends State<VocabularyList> {
         ),
         onTap: (){
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (context) => new WordDetail(item:item)
+              builder: (context) => new WordDetail(item:item,prefs: widget.prefs)
           ));
         },
       ),

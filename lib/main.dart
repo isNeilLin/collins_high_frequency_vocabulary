@@ -42,6 +42,11 @@ class HomePageState extends State<HomePage>{
     prefs = await SharedPreferences.getInstance();
     prefs.setInt('level', 5);
     prefs.setInt('count', 50);
+    prefs.setBool('showcollins',true);
+    prefs.setBool('sentence',true);
+    prefs.setBool('showCn',true);
+    prefs.setBool('autoplay',true);
+    prefs.setBool('en_ph',true);
     setState((){
       TabView = new RememberVocab(prefs:prefs);
     });

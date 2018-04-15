@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:collins_vocabulary/model/word.dart';
 import 'package:collins_vocabulary/common/phmp3.dart';
+import 'package:collins_vocabulary/components/means.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RememberVocab extends StatefulWidget {
@@ -24,154 +25,144 @@ class RememberVocabState extends State<RememberVocab> {
     level = widget.prefs.getInt('level');
   }
 
+  Widget _getPhMp3(){
+    if(widget.prefs.getBool('en_ph')){
+      return new Column(
+        children: <Widget>[
+          new PhMp3(
+              text: currentItem.ph_en,
+              src: currentItem.ph_en_mp3,
+              color: Colors.blueGrey,
+              autoplay: widget.prefs.getBool('autoplay')
+          ),
+          new Text('英音',style: new TextStyle(color: Colors.blueGrey,fontSize: 12.0))
+        ],
+      );
+    }else {
+      return new Column(
+        children: <Widget>[
+          new PhMp3(
+              text: currentItem.ph_am,
+              src: currentItem.ph_am_mp3,
+              color: Colors.blueGrey,
+              autoplay: widget.prefs.getBool('autoplay')
+          ),
+          new Text('美音',style: new TextStyle(color: Colors.blueGrey,fontSize: 12.0),)
+        ],
+      );
+    }
+  }
+
   Widget _builder(context, snapshot){
     if(snapshot.hasData){
       list = snapshot.data;
       currentItem = new Word().getDetail(list[currentIndex]);
       return new Container(
+        color: Colors.blueGrey,
         child: new Column(
           children: <Widget>[
             new Expanded(
-                child: new Container(
-                  margin: const EdgeInsets.all(16.0),
-                  width: 360.0,
-                  decoration: new BoxDecoration(
-                    color: Colors.blueGrey,
-                    borderRadius: new BorderRadius.circular(8.0),
-                    boxShadow: [new BoxShadow(color: Colors.black54,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
-                  ),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Container(
-                        padding: const EdgeInsets.only(top: 24.0,bottom:8.0),
-                        child: new Text(currentItem.text,style: new TextStyle(fontSize: 28.0,color: Colors.yellowAccent),),
-                      ),
-                      new Expanded(
-                          child: new Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+              child: new Container(
+                margin: const EdgeInsets.all(16.0),
+                width: 380.0,
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.circular(8.0),
+                  boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
+                ),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    new Container(
+                      padding: const EdgeInsets.only(top: 24.0,bottom:8.0),
+                      child: new Text(currentItem.text,style: new TextStyle(fontSize: 28.0,color: Colors.blue),),
+                    ),
+                    new Expanded(
+                      child: new Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Container(
+                            child: _getPhMp3(),
+                          ),
+                          new Padding(padding: const EdgeInsets.only(top:10.0)),
+                          new Means(currentItem: currentItem,),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              new Container(
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new Column(
-                                      children: <Widget>[
-                                        new PhMp3(
-                                          text: currentItem.ph_en,
-                                          src: currentItem.ph_en_mp3,
-                                          color: Colors.white,
+                              new Expanded(
+                                  child: new Container(
+                                    decoration: new BoxDecoration(border: new Border(
+                                      right: const BorderSide(width: 1.0,color: Colors.grey),
+                                      top: const BorderSide(width: 1.0,color: Colors.grey),
+                                    )),
+                                    child: new Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
+                                      child: new Center(
+                                        child:  new GestureDetector(
+                                            onTap: (){
+                                              setState((){
+                                                currentIndex = currentIndex+1;
+                                                currentItem = new Word().getDetail(list[currentIndex]);
+                                              });
+                                            },
+                                            child: new Text('不认识',style: new TextStyle(color: Colors.red,fontSize: 18.0),)
                                         ),
-                                        new Text('英音',style: new TextStyle(color: Colors.white70,fontSize: 12.0))
-                                      ],
-                                    ),
-                                    new Padding(padding: const EdgeInsets.only(left: 24.0)),
-                                    new Column(
-                                      children: <Widget>[
-                                        new PhMp3(
-                                          text: currentItem.ph_am,
-                                          src: currentItem.ph_am_mp3,
-                                          color: Colors.white,
-                                        ),
-                                        new Text('美音',style: new TextStyle(color: Colors.white70,fontSize: 12.0),)
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              new Padding(padding: const EdgeInsets.only(top:10.0)),
-                              new Flexible(
-                                fit: FlexFit.loose,
-                                child: new ListView.builder(
-                                  itemBuilder: (BuildContext context, int index){
-                                    final cn = currentItem.cn_mean[index];
-                                    return new Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 2.0),
-                                      child: new Text('${cn['part']} ${cn['means'].join('; ')}',
-                                        style: new TextStyle(fontSize: 14.0,color: Colors.white),
                                       ),
-                                    );
-                                  },
-                                  itemCount: currentItem.cn_mean.length,
-                                ),
+                                    ),
+                                  )
+                              ),
+                              new Expanded(
+                                  child: new Container(
+                                    decoration: new BoxDecoration(border: new Border(
+                                      right: const BorderSide(width: 1.0,color: Colors.grey),
+                                      top: const BorderSide(width: 1.0,color: Colors.grey),
+                                    )),
+                                    child: new Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
+                                      child: new Center(
+                                        child: new GestureDetector(
+                                            onTap: (){
+                                              setState((){
+                                                currentIndex = currentIndex+1;
+                                                currentItem = new Word().getDetail(list[currentIndex]);
+                                              });
+                                            },
+                                            child: new Text('模糊',style: new TextStyle(color: Colors.blue,fontSize: 18.0),)
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              new Expanded(
+                                  child: new Container(
+                                    decoration: new BoxDecoration(border: new Border(
+                                      top: const BorderSide(width: 1.0,color: Colors.grey),
+                                    )),
+                                    child: new Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
+                                      child: new Center(
+                                        child: new GestureDetector(
+                                            onTap: (){
+                                              setState((){
+                                                currentIndex = currentIndex+1;
+                                                currentItem = new Word().getDetail(list[currentIndex]);
+                                              });
+                                            },
+                                            child: new Text('认识',style: new TextStyle(color: Colors.green,fontSize: 18.0),)
+                                        ),
+                                      ),
+                                    ),
+                                  )
                               ),
                             ],
-                          )
-                      )
-                    ],
-                  ),
-                )
-            ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                new Expanded(
-                    child: new Container(
-                      decoration: new BoxDecoration(border: new Border(
-                        right: const BorderSide(width: 1.0,color: Colors.grey),
-                        top: const BorderSide(width: 1.0,color: Colors.grey),
-                      )),
-                      child: new Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: new Center(
-                        child:  new GestureDetector(
-                            onTap: (){
-                              setState((){
-                                currentIndex = currentIndex+1;
-                                currentItem = new Word().getDetail(list[currentIndex]);
-                              });
-                            },
-                            child: new Text('不认识',style: new TextStyle(color: Colors.red,fontSize: 18.0),)
-                        ),
-                      ),
-                      ),
-                    )
-                ),
-                new Expanded(
-                    child: new Container(
-                      decoration: new BoxDecoration(border: new Border(
-                        right: const BorderSide(width: 1.0,color: Colors.grey),
-                        top: const BorderSide(width: 1.0,color: Colors.grey),
-                      )),
-                      child: new Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: new Center(
-                        child: new GestureDetector(
-                            onTap: (){
-                              setState((){
-                                currentIndex = currentIndex+1;
-                                currentItem = new Word().getDetail(list[currentIndex]);
-                              });
-                            },
-                            child: new Text('模糊',style: new TextStyle(color: Colors.blue,fontSize: 18.0),)
-                        ),
-                      ),
-                      ),
-                    )
-                ),
-                new Expanded(
-                    child: new Container(
-                      decoration: new BoxDecoration(border: new Border(
-                        top: const BorderSide(width: 1.0,color: Colors.grey),
-                      )),
-                      child: new Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: new Center(
-                          child: new GestureDetector(
-                              onTap: (){
-                                setState((){
-                                  currentIndex = currentIndex+1;
-                                  currentItem = new Word().getDetail(list[currentIndex]);
-                                });
-                              },
-                              child: new Text('认识',style: new TextStyle(color: Colors.green,fontSize: 18.0),)
                           ),
-                        ),
-                      ),
+                        ],
+                      )
                     )
+                  ],
                 ),
-              ],
+              )
             ),
           ],
         ),
