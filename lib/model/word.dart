@@ -24,6 +24,28 @@ class Word {
     return new Word.fromJson(item);
   }
 
+  Map toJson(Word word){
+    Map map;
+    try{
+      map=  {
+        'word': word.text,
+        'ph_en': word.ph_en,
+        'ph_en_mp3': word.ph_en_mp3,
+        'ph_am': word.ph_am,
+        'ph_am_mp3': word.ph_am_mp3,
+        'parts': word.cn_mean,
+        'collins': word.collins,
+        'origin': word.origin
+      };
+    }catch(e){
+      map = {
+        'word': word.text,
+        'explain': word.explain
+      };
+    }
+    return map;
+  }
+
   factory Word.fromJson(json){
     Word word;
     try{

@@ -4,9 +4,12 @@ import 'package:collins_vocabulary/components/remember.dart';
 import 'package:collins_vocabulary/components/mine.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(new MyApp());
+void main() async{
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -34,19 +38,24 @@ class HomePageState extends State<HomePage>{
   SharedPreferences prefs;
   int currentIndex = 0;
   int level = 5;
-  Map<String,bool> options = {
-
-  };
   
   void initPrefs() async {
     prefs = await SharedPreferences.getInstance();
-    prefs.setInt('level', 5);
-    prefs.setInt('count', 50);
-    prefs.setBool('showcollins',true);
-    prefs.setBool('sentence',true);
-    prefs.setBool('showCn',true);
-    prefs.setBool('autoplay',true);
-    prefs.setBool('en_ph',true);
+    final level = prefs.getInt('level');
+    if(level==null){
+      prefs.setInt('level', 5);
+      prefs.setInt('count', 50);
+      prefs.setBool('showcollins',true);
+      prefs.setBool('sentence',true);
+      prefs.setBool('showCn',true);
+      prefs.setBool('autoplay',true);
+      prefs.setBool('en_ph',true);
+    }
+    final studied = prefs.getString('studied');
+    if(studied==null){
+      prefs.setString('studied', '');
+      prefs.setInt('studying', 0);
+    }
     setState((){
       TabView = new RememberVocab(prefs:prefs);
     });

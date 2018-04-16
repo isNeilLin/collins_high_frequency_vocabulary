@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/components/word_detail.dart';
 import 'package:collins_vocabulary/model/word.dart';
+import 'dart:convert';
 
 class VocabularyList extends StatefulWidget {
   SharedPreferences prefs;
   String title;
-  VocabularyList({Key key,this.prefs,this.title}) : super(key:key);
-  
-  
+  String label;
+  VocabularyList({Key key,this.prefs,this.title,this.label}) : super(key:key);
 
   @override
   State<StatefulWidget> createState() {
@@ -37,6 +37,38 @@ class VocabularyListState extends State<VocabularyList> {
     );
   }
 
+  List generateList(List list){
+    if(widget.label=='all'){
+      return list;
+    }
+    List studiedList = [];
+    final studied = widget.prefs.getString('studied');
+    if(studied.isEmpty){
+      studiedList = [];
+    }else{
+      List strlist = json.decode(studied);
+      strlist.forEach((item){
+        studiedList.add(json.decode(item));
+      });
+    }
+    if(widget.label=='studied'){
+      return studiedList;
+    }
+    if(widget.label=='unstudy'){
+      List stuiedWords = studiedList.map((item)=>item['word']).toList();
+      List unstudy = list.where((item){
+        return !stuiedWords.contains(item['word']);
+      }).toList();
+      return unstudy;
+    }else{
+      int index = widget.prefs.getInt('studying');
+      int count = widget.prefs.getInt('count');
+      int len = index+count;
+      len = len > list.length ? list.length : len;
+      return list.sublist(index,len);
+    }
+  }
+
   @override
   Widget build(BuildContext context){
     return new Scaffold(
@@ -49,6 +81,7 @@ class VocabularyListState extends State<VocabularyList> {
           builder: (context, snapshot){
             if(snapshot.hasData){
               list = snapshot.data;
+              list = generateList(list);
               return new ListView.builder(itemBuilder: buildItem,itemCount: list.length,);
             }
             return new Container(child: null,);

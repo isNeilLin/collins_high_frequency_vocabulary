@@ -3,6 +3,8 @@ import 'package:collins_vocabulary/model/word.dart';
 import 'package:collins_vocabulary/common/phmp3.dart';
 import 'package:collins_vocabulary/components/means.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:async';
 
 class RememberVocab extends StatefulWidget {
   SharedPreferences prefs;
@@ -17,12 +19,19 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   int currentIndex = 0;
   Word currentItem;
   List list = [];
+  List studied;
   int level;
 
   @override
   initState() {
     super.initState();
     level = widget.prefs.getInt('level');
+    String studiedstr = widget.prefs.getString('studied');
+    if(studiedstr.isEmpty){
+      studied = [];
+    }else{
+      studied = json.decode(studiedstr);
+    }
   }
 
   @override
@@ -56,6 +65,30 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
         ],
       );
     }
+  }
+
+  Future<List> getlist() async{
+    final WholeList = await new Word().getList(level);
+    int index = widget.prefs.getInt('studying');
+    int count = widget.prefs.getInt('count');
+    int len = index+count;
+    len = len > WholeList.length ? WholeList.length : len;
+    list = WholeList.sublist(index,len);
+    List studiedList = [];
+    final studied = widget.prefs.getString('studied');
+    if(studied.isEmpty){
+      studiedList = [];
+    }else{
+      List strlist = json.decode(studied);
+      strlist.forEach((item){
+        studiedList.add(json.decode(item));
+      });
+    }
+    List stuiedWords = studiedList.map((item)=>item['word']).toList();
+    List lastWords = list.where((item){
+      return !stuiedWords.contains(item['word']);
+    }).toList();
+    return lastWords;
   }
 
   Widget _builder(context, snapshot){
@@ -129,6 +162,8 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                         child: new GestureDetector(
                                             onTap: (){
                                               setState((){
+                                                studied.add(json.encode(new Word().toJson(currentItem)));
+                                                widget.prefs.setString('studied', json.encode(studied));
                                                 currentIndex = currentIndex+1;
                                                 currentItem = new Word().getDetail(list[currentIndex]);
                                               });
@@ -150,6 +185,8 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                         child: new GestureDetector(
                                             onTap: (){
                                               setState((){
+                                                studied.add(json.encode(new Word().toJson(currentItem)));
+                                                widget.prefs.setString('studied', json.encode(studied));
                                                 currentIndex = currentIndex+1;
                                                 currentItem = new Word().getDetail(list[currentIndex]);
                                               });
@@ -186,7 +223,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
         title: new Text('柯林斯高频词汇'),
       ),
       body: new FutureBuilder(
-          future: new Word().getList(level),
+          future: getlist(),
           builder: _builder
       ),
     );

@@ -30,7 +30,7 @@ class WordList extends StatelessWidget {
                 onTap: (){
                   Navigator.push(context,
                       new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs, title: '所有单词')
+                          builder: (context)=>new VocabularyList(prefs: prefs, title: '所有单词',label:'all')
                       )
                   );
                 },
@@ -55,7 +55,7 @@ class WordList extends StatelessWidget {
                 onTap: (){
                   Navigator.push(context,
                       new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs,title: '尚未学习')
+                          builder: (context)=>new VocabularyList(prefs: prefs,title: '尚未学习',label:'unstudy')
                       )
                   );
                 },
@@ -80,7 +80,7 @@ class WordList extends StatelessWidget {
                 onTap: (){
                   Navigator.push(context,
                       new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs,title: '正在学习')
+                          builder: (context)=>new VocabularyList(prefs: prefs,title: '正在学习',label:'studying')
                       )
                   );
                 },
@@ -105,7 +105,7 @@ class WordList extends StatelessWidget {
                 onTap: (){
                   Navigator.push(context,
                       new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs,title: '已经掌握')
+                          builder: (context)=>new VocabularyList(prefs: prefs,title: '已经掌握',label:'studied')
                       )
                   );
                 },

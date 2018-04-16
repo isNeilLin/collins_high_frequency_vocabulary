@@ -149,6 +149,8 @@ class DetailMeansState extends State<DetailMeans> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.word);
+    print(widget.word.cn_mean);
     if(widget.word.explain.toString().isEmpty){
       return buildExpalin();
     }
