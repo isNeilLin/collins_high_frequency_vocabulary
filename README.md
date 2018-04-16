@@ -9,6 +9,8 @@
 
 ## ScreenShots
 
+<img src="./screenshots/2.png" width="450px"/>
+
 ![首页](./screenshots/1.png)
 
 ![首页带释义](./screenshots/2.png)
