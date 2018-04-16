@@ -10,15 +10,15 @@ class DetailMeans extends StatefulWidget {
 }
 
 class DetailMeansState extends State<DetailMeans> {
-  AudioPlayer examplePlayer = new AudioPlayer();
+  AudioPlayer audioPlayer = new AudioPlayer();
 
   @override
   void initState(){
     super.initState();
-    examplePlayer.setCompletionHandler(() async{
-      await examplePlayer.stop();
+    audioPlayer.setCompletionHandler(() async{
+      await audioPlayer.stop();
     });
-    examplePlayer.setErrorHandler((msg) {
+    audioPlayer.setErrorHandler((msg) {
       print('examplePlayer error : $msg');
     });
   }
@@ -133,7 +133,7 @@ class DetailMeansState extends State<DetailMeans> {
       children: <Widget>[
         new GestureDetector(
           onTap:() async{
-            await examplePlayer.play(example['tts_mp3']);
+            await audioPlayer.play(example['tts_mp3']);
           },
           child: new Text(example['ex'],
             style: new TextStyle(color: Colors.blue,fontSize: 16.0),

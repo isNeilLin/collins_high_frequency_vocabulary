@@ -13,7 +13,7 @@ class RememberVocab extends StatefulWidget {
   }
 }
 
-class RememberVocabState extends State<RememberVocab> {
+class RememberVocabState extends State<RememberVocab> with SingleTickerProviderStateMixin {
   int currentIndex = 0;
   Word currentItem;
   List list = [];
@@ -23,6 +23,11 @@ class RememberVocabState extends State<RememberVocab> {
   initState() {
     super.initState();
     level = widget.prefs.getInt('level');
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
   }
 
   Widget _getPhMp3(){
@@ -159,7 +164,7 @@ class RememberVocabState extends State<RememberVocab> {
                           ),
                         ],
                       )
-                    )
+                    ),
                   ],
                 ),
               )

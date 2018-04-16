@@ -18,14 +18,7 @@ class PhMp3State extends State<PhMp3>{
   @override
   void initState() {
     super.initState();
-    audioPlayer = new AudioPlayer();
-    audioPlayer.setErrorHandler((msg) {
-      print('audioPlayer error : $msg');
-    });
-    audioPlayer.setCompletionHandler(() {
-      print('complete');
-      stop();
-    });
+    initAudio();
     if(widget.autoplay){
       play(widget.src);
     }
@@ -48,6 +41,7 @@ class PhMp3State extends State<PhMp3>{
   }
 
   void play(url) async {
+    initAudio();
     try{
       final result = await audioPlayer.play(url);
       if (result == 1) setState(() => playing = true);
@@ -74,6 +68,17 @@ class PhMp3State extends State<PhMp3>{
     }else{
       play(url);
     }
+  }
+
+  void initAudio(){
+    audioPlayer = new AudioPlayer();
+    audioPlayer.setErrorHandler((msg) {
+      print('audioPlayer error : $msg');
+    });
+    audioPlayer.setCompletionHandler(() {
+      print('complete');
+      stop();
+    });
   }
 
   @override
