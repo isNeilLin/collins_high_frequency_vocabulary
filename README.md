@@ -9,22 +9,20 @@
 
 ## ScreenShots
 
+<img src="./screenshots/1.png" width="450px"/>
+
 <img src="./screenshots/2.png" width="450px"/>
 
-![首页](./screenshots/1.png)
+<img src="./screenshots/3.png" width="450px"/>
 
-![首页带释义](./screenshots/2.png)
+<img src="./screenshots/4.png" width="450px"/>
 
-![分类](./screenshots/3.png)
+<img src="./screenshots/5.png" width="450px"/>
 
-![列表](./screenshots/4.png)
+<img src="./screenshots/6.png" width="450px"/>
 
-![列表详情](./screenshots/5.png)
+<img src="./screenshots/7.png" width="450px"/>
 
-![我的](./screenshots/6.png)
-
-![切换单词书](./screenshots/7.png)
-
-![切换计划](./screenshots/8.png)
+<img src="./screenshots/8.png" width="450px"/>
 
 > [Flutter](https://flutter.io/).
