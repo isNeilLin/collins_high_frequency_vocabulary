@@ -124,7 +124,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                             child: _getPhMp3(),
                           ),
                           new Padding(padding: const EdgeInsets.only(top:10.0)),
-                          new Means(currentItem: currentItem,),
+                          new Means(currentItem: currentItem,prefs: widget.prefs),
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[

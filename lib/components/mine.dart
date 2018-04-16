@@ -149,16 +149,18 @@ class MineState extends State<Mine> {
                       onChanged: (bool value) {
                         setState((){
                           showColins = value;
+                          widget.prefs.setBool('showcollins', value);
                         });
                       }
                   ),
                   new SwitchListTile(
                       activeColor: Colors.blueGrey,
-                      title: new Text('显示翻译'),
+                      title: new Text('显示中文翻译'),
                       value: showCn,
                       onChanged: (bool value) {
                         setState((){
                           showCn = value;
+                          widget.prefs.setBool('showCn', value);
                         });
                       }
                   ),
@@ -169,6 +171,7 @@ class MineState extends State<Mine> {
                       onChanged: (bool value) {
                         setState((){
                           Sentence = value;
+                          widget.prefs.setBool('sentence', value);
                         });
                       }
                   ),

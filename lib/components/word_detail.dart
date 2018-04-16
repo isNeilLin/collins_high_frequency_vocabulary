@@ -14,6 +14,17 @@ class WordDetail extends StatefulWidget {
 }
 
 class WordDetailState extends State<WordDetail> {
+  bool showCn;
+  bool showCollins;
+  bool showSentence;
+
+  @override
+  initState(){
+    super.initState();
+    showCn = widget.prefs.getBool('showCn');
+    showCollins = widget.prefs.getBool('showcollins');
+    showSentence = widget.prefs.getBool('sentence');
+  }
 
   Widget _getPhMp3(){
     if(widget.prefs.getBool('en_ph')){
@@ -61,7 +72,7 @@ class WordDetailState extends State<WordDetail> {
         ),
         _getPhMp3(),
         new Padding(padding: const EdgeInsets.only(top:10.0)),
-        new DetailMeans(word: word,)
+        new DetailMeans(word: word,showCn:showCn,showCollins:showCollins,showSentence:showSentence)
       ],
     );
   }

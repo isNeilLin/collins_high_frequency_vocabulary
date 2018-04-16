@@ -32,6 +32,7 @@ class SelectBookState extends State<SelectBook> {
         child: new Column(
           children: <Widget>[
             new RadioListTile(
+              activeColor: Colors.blueGrey,
               title: const Text('柯林斯一星词汇'),
               value: 1,
               groupValue: level,
@@ -41,6 +42,7 @@ class SelectBookState extends State<SelectBook> {
               }); },
             ),
             new RadioListTile(
+              activeColor: Colors.blueGrey,
               title: const Text('柯林斯二星词汇'),
               value: 2,
               groupValue: level,
@@ -50,6 +52,7 @@ class SelectBookState extends State<SelectBook> {
               }); },
             ),
             new RadioListTile(
+              activeColor: Colors.blueGrey,
               title: const Text('柯林斯三星词汇'),
               value: 3,
               groupValue: level,
@@ -59,6 +62,7 @@ class SelectBookState extends State<SelectBook> {
               }); },
             ),
             new RadioListTile(
+              activeColor: Colors.blueGrey,
               title: const Text('柯林斯四星词汇'),
               value: 4,
               groupValue: level,
@@ -68,6 +72,7 @@ class SelectBookState extends State<SelectBook> {
               }); },
             ),
             new RadioListTile(
+              activeColor: Colors.blueGrey,
               title: const Text('柯林斯五星词汇'),
               value: 5,
               groupValue: level,
