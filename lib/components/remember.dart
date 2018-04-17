@@ -16,7 +16,7 @@ class RememberVocab extends StatefulWidget {
 }
 
 class RememberVocabState extends State<RememberVocab> with SingleTickerProviderStateMixin {
-  int currentIndex = 0;
+  int currentIndex;
   Word currentItem;
   List list = [];
   List studied;
@@ -37,7 +37,10 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
     studied.forEach((item){
       studiedList.add(json.decode(item));
     });
-    stuiedWords = studiedList.map((item)=>item['word']).toList();
+    setState((){
+      stuiedWords = studiedList.map((item)=>item['word']).toList();
+      currentIndex = 0;
+    });
   }
 
   @override
@@ -75,15 +78,12 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
 
   Future<List> getlist() async{
     final WholeList = await new Word().getList(level);
-    int index = widget.prefs.getInt('studying');
-    int count = widget.prefs.getInt('count');
-    int len = index+count;
-    len = len > WholeList.length ? WholeList.length : len;
-    list = WholeList.sublist(index,len);
-    List lastWords = list.where((item){
+    List lastWords = WholeList.where((item){
       return !stuiedWords.contains(item['word']);
     }).toList();
-    return lastWords;
+    int count = widget.prefs.getInt('count');
+    int len = count > lastWords.length ? lastWords.length : count;
+    return lastWords.sublist(0,len);
   }
 
   Widget _builder(context, snapshot){

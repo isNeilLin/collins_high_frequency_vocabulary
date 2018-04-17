@@ -51,21 +51,22 @@ class VocabularyListState extends State<VocabularyList> {
         studiedList.add(json.decode(item));
       });
     }
+    List stuiedWords = studiedList.map((item)=>item['word']).toList();
     if(widget.label=='studied'){
       return studiedList;
     }
     if(widget.label=='unstudy'){
-      List stuiedWords = studiedList.map((item)=>item['word']).toList();
       List unstudy = list.where((item){
         return !stuiedWords.contains(item['word']);
       }).toList();
       return unstudy;
     }else{
-      int index = widget.prefs.getInt('studying');
+      List lastWords = list.where((item){
+        return !stuiedWords.contains(item['word']);
+      }).toList();
       int count = widget.prefs.getInt('count');
-      int len = index+count;
-      len = len > list.length ? list.length : len;
-      return list.sublist(index,len);
+      int len = count > lastWords.length ? lastWords.length : count;
+      return lastWords.sublist(0,len);
     }
   }
 
