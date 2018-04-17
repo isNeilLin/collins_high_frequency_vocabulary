@@ -20,6 +20,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   Word currentItem;
   List list = [];
   List studied;
+  List stuiedWords;
   int level;
 
   @override
@@ -32,6 +33,11 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
     }else{
       studied = json.decode(studiedstr);
     }
+    List studiedList = [];
+    studied.forEach((item){
+      studiedList.add(json.decode(item));
+    });
+    stuiedWords = studiedList.map((item)=>item['word']).toList();
   }
 
   @override
@@ -74,17 +80,6 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
     int len = index+count;
     len = len > WholeList.length ? WholeList.length : len;
     list = WholeList.sublist(index,len);
-    List studiedList = [];
-    final studied = widget.prefs.getString('studied');
-    if(studied.isEmpty){
-      studiedList = [];
-    }else{
-      List strlist = json.decode(studied);
-      strlist.forEach((item){
-        studiedList.add(json.decode(item));
-      });
-    }
-    List stuiedWords = studiedList.map((item)=>item['word']).toList();
     List lastWords = list.where((item){
       return !stuiedWords.contains(item['word']);
     }).toList();
@@ -161,9 +156,9 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                       child: new Center(
                                         child: new GestureDetector(
                                             onTap: (){
+                                              studied.add(json.encode(new Word().toJson(currentItem)));
+                                              widget.prefs.setString('studied', json.encode(studied));
                                               setState((){
-                                                studied.add(json.encode(new Word().toJson(currentItem)));
-                                                widget.prefs.setString('studied', json.encode(studied));
                                                 currentIndex = currentIndex+1;
                                                 currentItem = new Word().getDetail(list[currentIndex]);
                                               });
@@ -184,9 +179,9 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                       child: new Center(
                                         child: new GestureDetector(
                                             onTap: (){
+                                              studied.add(json.encode(new Word().toJson(currentItem)));
+                                              widget.prefs.setString('studied', json.encode(studied));
                                               setState((){
-                                                studied.add(json.encode(new Word().toJson(currentItem)));
-                                                widget.prefs.setString('studied', json.encode(studied));
                                                 currentIndex = currentIndex+1;
                                                 currentItem = new Word().getDetail(list[currentIndex]);
                                               });

@@ -51,6 +51,7 @@ class HomePageState extends State<HomePage>{
       prefs.setBool('autoplay',true);
       prefs.setBool('en_ph',true);
     }
+    prefs.remove('studied');
     final studied = prefs.getString('studied');
     if(studied==null){
       prefs.setString('studied', '');
