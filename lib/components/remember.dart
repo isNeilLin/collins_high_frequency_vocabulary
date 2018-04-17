@@ -214,6 +214,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        centerTitle: true,
         elevation: 0.0,
         title: new Text('柯林斯高频词汇'),
       ),

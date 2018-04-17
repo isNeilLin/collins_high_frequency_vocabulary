@@ -11,6 +11,7 @@ class WordList extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         elevation: 0.0,
+        centerTitle: true,
         title: new Text('分类列表'),
       ),
       body: new Column(
