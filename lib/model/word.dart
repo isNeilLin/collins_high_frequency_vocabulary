@@ -10,8 +10,8 @@ class Word {
   final ph_am_mp3;
   final origin;
   final explain;
-  List<Map<String,dynamic>> cn_mean;
-  List<Map<String,dynamic>>  collins;
+  List cn_mean;
+  List collins;
   Word({this.text,this.explain,this.ph_en,this.ph_en_mp3,this.ph_am,this.ph_am_mp3,this.cn_mean,this.collins,this.origin});
 
   Future<List> getList(level) async {
@@ -60,6 +60,7 @@ class Word {
         origin: json['origin']
       );
     }catch(e){
+      print(e);
       word = new Word(
           text: json['word'],
           explain: json['explain'],

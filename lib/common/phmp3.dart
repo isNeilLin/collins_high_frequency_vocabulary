@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayer/audioplayer.dart';
+import 'dart:io';
 
 class PhMp3 extends StatefulWidget {
   final src;
@@ -71,6 +72,9 @@ class PhMp3State extends State<PhMp3>{
   }
 
   void initAudio(){
+    if(Platform.isIOS){
+      return;
+    }
     audioPlayer = new AudioPlayer();
     audioPlayer.setErrorHandler((msg) {
       print('audioPlayer error : $msg');
@@ -87,15 +91,18 @@ class PhMp3State extends State<PhMp3>{
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Icon(
+          Platform.isIOS ? new Icon(Icons.play_circle_outline,color: widget.color, size: 19.0,) : new Icon(
             playing ? Icons.pause_circle_outline : Icons.play_circle_outline,
             color: widget.color,
             size: 19.0,
           ),
-          new Text(' /${widget.text}/',style: new TextStyle(fontSize: 18.0,color: widget.color),),
+          new Text(' /'+widget.text+'/',style: new TextStyle(fontSize: 18.0,color: widget.color),),
         ],
       ),
       onTap: (){
+        if(Platform.isIOS){
+          return;
+        }
         if(widget.src.isEmpty){
           audioController(widget.src);
         }else{

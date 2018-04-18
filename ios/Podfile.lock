@@ -53,14 +53,14 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
-  - Flutter (from `Pods/.symlinks/flutter/ios-release`)
+  - Flutter (from `Pods/.symlinks/flutter/ios`)
   - shared_preferences (from `Pods/.symlinks/plugins/shared_preferences-0.4.1/ios`)
 
 EXTERNAL SOURCES:
   audioplayer:
     :path: Pods/.symlinks/plugins/audioplayer-0.4.0/ios
   Flutter:
-    :path: Pods/.symlinks/flutter/ios-release
+    :path: Pods/.symlinks/flutter/ios
   shared_preferences:
     :path: Pods/.symlinks/plugins/shared_preferences-0.4.1/ios
 
