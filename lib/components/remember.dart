@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/animation.dart';
 import 'package:collins_vocabulary/model/word.dart';
 import 'package:collins_vocabulary/common/phmp3.dart';
@@ -152,13 +153,16 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                   );
                 },
                 child: new GestureDetector(
-                  onHorizontalDragEnd: (DragEndDetails detail){
-                    final velocity = detail.primaryVelocity;
-                    if(velocity > 0 && velocity.abs() > 5000){
+                  onHorizontalDragUpdate: (DragUpdateDetails detail){
+                    final primaryDelta = detail.primaryDelta;
+                    if(primaryDelta > 0 && primaryDelta.abs() > 25){
                       _checkIsFinish(context,currentIndex+1,true);
-                    }else if(velocity < 0 && velocity.abs() > 5000){
-                      _checkIsFinish(context,currentIndex+1,false);
+                    }else if(primaryDelta < 0 && primaryDelta.abs() > 25){
+                      _checkIsFinish(context,currentIndex-1,false);
                     }
+                  },
+                  onHorizontalDragEnd: (DragEndDetails detail){
+                    debugPrint(detail.primaryVelocity.toString());
                   },
                   child: new Container(
                     margin: const EdgeInsets.all(16.0),
