@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/animation.dart';
 import 'package:collins_vocabulary/model/word.dart';
 import 'package:collins_vocabulary/common/phmp3.dart';
-import 'package:collins_vocabulary/components/means.dart';
+import 'package:collins_vocabulary/components/detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';

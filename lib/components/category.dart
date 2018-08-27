@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collins_vocabulary/components/alllist.dart';
+import 'package:collins_vocabulary/components/word_list.dart';
 
 class WordList extends StatelessWidget {
   SharedPreferences prefs;

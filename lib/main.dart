@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:collins_vocabulary/components/list.dart';
-import 'package:collins_vocabulary/components/remember.dart';
-import 'package:collins_vocabulary/components/mine.dart';
+import 'package:collins_vocabulary/components/category.dart';
+import 'package:collins_vocabulary/components/wordcard.dart';
+import 'package:collins_vocabulary/components/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async{

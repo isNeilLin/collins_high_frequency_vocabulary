@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:collins_vocabulary/components/selectBook.dart';
+import 'package:collins_vocabulary/components/book_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collins_vocabulary/components/ChangePlan.dart';
+import 'package:collins_vocabulary/components/plan_option.dart';
 
 class Mine extends StatefulWidget {
   SharedPreferences prefs;
