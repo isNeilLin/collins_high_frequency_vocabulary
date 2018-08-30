@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:collins_vocabulary/components/category.dart';
 import 'package:collins_vocabulary/components/wordcard.dart';
 import 'package:collins_vocabulary/components/setting.dart';
+import 'package:collins_vocabulary/model/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async{
@@ -34,11 +35,16 @@ class HomePage extends StatefulWidget {
   }
 }
 class HomePageState extends State<HomePage>{
+  DBClient client;
   Widget TabView = null;
   SharedPreferences prefs;
   int currentIndex = 0;
   int level = 5;
   
+  void initDB() async{
+    client = new DBClient();
+  }
+
   void initPrefs() async {
     prefs = await SharedPreferences.getInstance();
     final level = prefs.getInt('level');
@@ -58,7 +64,7 @@ class HomePageState extends State<HomePage>{
       prefs.setInt('studying', 0);
     }
     setState((){
-      TabView = new RememberVocab(prefs:prefs);
+      TabView = new RememberVocab(prefs:prefs, client: client);
     });
   }
   
@@ -66,6 +72,7 @@ class HomePageState extends State<HomePage>{
   void initState() {
     super.initState();
     initPrefs();
+    initDB();
   }
   @override
   void dispose() {
@@ -77,7 +84,7 @@ class HomePageState extends State<HomePage>{
         currentIndex = index;
         switch(currentIndex) {
           case 0:
-            TabView = new RememberVocab(prefs:prefs);
+            TabView = new RememberVocab(prefs:prefs, client: client);
             break;
           case 1:
             TabView = new WordList(prefs:prefs);
@@ -86,7 +93,7 @@ class HomePageState extends State<HomePage>{
             TabView = new Mine(prefs:prefs);
             break;
           default:
-            TabView = new RememberVocab();
+            TabView = new RememberVocab(client: client);
         }
     });
   }

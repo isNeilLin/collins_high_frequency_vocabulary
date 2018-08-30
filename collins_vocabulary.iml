@@ -15,6 +15,30 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/audioplayer-0.4.0/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/audioplayer-0.4.0/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/audioplayer-0.4.0/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/audioplayer-0.4.0/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/audioplayer-0.4.0/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/audioplayer-0.4.0/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/path_provider-0.4.1/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/path_provider-0.4.1/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/path_provider-0.4.1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/path_provider-0.4.1/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/path_provider-0.4.1/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/path_provider-0.4.1/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/shared_preferences-0.4.1/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/shared_preferences-0.4.1/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/shared_preferences-0.4.1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/shared_preferences-0.4.1/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/shared_preferences-0.4.1/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/shared_preferences-0.4.1/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/sqflite-0.11.1/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/sqflite-0.11.1/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/sqflite-0.11.1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/sqflite-0.11.1/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/sqflite-0.11.1/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/.symlinks/plugins/sqflite-0.11.1/example/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />

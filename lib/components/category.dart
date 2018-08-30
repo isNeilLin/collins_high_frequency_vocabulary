@@ -14,109 +14,117 @@ class WordList extends StatelessWidget {
         centerTitle: true,
         title: new Text('分类列表'),
       ),
-      body: new Column(
-        children: <Widget>[
-          new Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
-              height: 66.0,
-              constraints: new BoxConstraints(
-                  minWidth: double.maxFinite
+      body: new Container(
+        padding: const EdgeInsets.all(16.0),
+        color: Colors.blueGrey,
+        child: new Row(
+          children: <Widget>[
+            new Expanded(child: new Container(
+              child: new Column(
+                children: <Widget>[
+                  new Expanded(child:new Container(
+                    margin: const EdgeInsets.only(right: 10.0),
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.circular(8.0),
+                      boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
+                    ),
+                    child: new InkWell(
+                      onTap: (){
+                        Navigator.push(context,
+                            new MaterialPageRoute(
+                                builder: (context)=>new VocabularyList(prefs: prefs, title: '所有单词',label:'all')
+                            )
+                        );
+                      },
+                      child: new Center(
+                        child: new Text('所有单词',
+                          textAlign: TextAlign.left,
+                          style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.indigo),
+                        ),
+                      ),
+                    ),
+                  ),),
+                  new Expanded(child: new Container(
+                    margin: const EdgeInsets.only(top: 20.0,right: 10.0),
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.circular(8.0),
+                      boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
+                    ),
+                    child: new InkWell(
+                      onTap: (){
+                        Navigator.push(context,
+                            new MaterialPageRoute(
+                                builder: (context)=>new VocabularyList(prefs: prefs,title: '尚未学习',label:'unstudy')
+                            )
+                        );
+                      },
+                      child: new Center(
+                        child: new Text('尚未学习',
+                          textAlign: TextAlign.left,
+                          style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.purple),
+                        ),
+                      ),
+                    ),
+                  ),)
+                ],
               ),
-              decoration: new BoxDecoration(
-                  border: new Border(
-                      bottom: new BorderSide(color: Colors.grey,width: 1.0)
-                  )
-              ),
-              child: new InkWell(
-                onTap: (){
-                  Navigator.push(context,
-                      new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs, title: '所有单词',label:'all')
+            ),),
+            new Expanded(child: new Container(
+              child: new Column(
+                children: <Widget>[
+                  new Expanded(child: new Container(
+                    margin: const EdgeInsets.only(left: 10.0),
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.circular(8.0),
+                      boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
+                    ),
+                    child: new InkWell(
+                      onTap: (){
+                        Navigator.push(context,
+                            new MaterialPageRoute(
+                                builder: (context)=>new VocabularyList(prefs: prefs,title: '正在学习',label:'studying')
+                            )
+                        );
+                      },
+                      child: new Center(
+                        child: new Text('正在学习',
+                          textAlign: TextAlign.left,
+                          style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.blue),
+                        ),
+                      ),
+                    ),
+                  ),),
+                  new Expanded(child: new Container(
+                      margin: const EdgeInsets.only(top: 20.0,left:10.0),
+                      decoration: new BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: new BorderRadius.circular(8.0),
+                        boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
+                      ),
+                      child: new InkWell(
+                        onTap: (){
+                          Navigator.push(context,
+                              new MaterialPageRoute(
+                                  builder: (context)=>new VocabularyList(prefs: prefs,title: '已经掌握',label:'studied')
+                              )
+                          );
+                        },
+                        child: new Center(
+                          child: new Text('已经掌握',
+                            textAlign: TextAlign.left,
+                            style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.green),
+                          ),
+                        ),
                       )
-                  );
-                },
-                child: new Text('所有单词',
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.indigo),
-                ),
-              )
-          ),
-          new Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
-              height: 66.0,
-              constraints: new BoxConstraints(
-                  minWidth: double.maxFinite
+                  ),),
+                ],
               ),
-              decoration: new BoxDecoration(
-                  border: new Border(
-                      bottom: new BorderSide(color: Colors.grey,width: 1.0)
-                  )
-              ),
-              child: new InkWell(
-                onTap: (){
-                  Navigator.push(context,
-                      new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs,title: '尚未学习',label:'unstudy')
-                      )
-                  );
-                },
-                child: new Text('尚未学习',
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.purple),
-                ),
-              )
-          ),
-          new Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
-              height: 66.0,
-              constraints: new BoxConstraints(
-                  minWidth: double.maxFinite
-              ),
-              decoration: new BoxDecoration(
-                  border: new Border(
-                      bottom: new BorderSide(color: Colors.grey,width: 1.0)
-                  )
-              ),
-              child: new InkWell(
-                onTap: (){
-                  Navigator.push(context,
-                      new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs,title: '正在学习',label:'studying')
-                      )
-                  );
-                },
-                child: new Text('正在学习',
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.blue),
-                ),
-              )
-          ),
-          new Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
-              height: 66.0,
-              constraints: new BoxConstraints(
-                  minWidth: double.maxFinite
-              ),
-              decoration: new BoxDecoration(
-                  border: new Border(
-                      bottom: new BorderSide(color: Colors.grey,width: 1.0)
-                  )
-              ),
-              child: new InkWell(
-                onTap: (){
-                  Navigator.push(context,
-                      new MaterialPageRoute(
-                          builder: (context)=>new VocabularyList(prefs: prefs,title: '已经掌握',label:'studied')
-                      )
-                  );
-                },
-                child: new Text('已经掌握',
-                  textAlign: TextAlign.left,
-                  style: new TextStyle(fontSize: 18.0,height: 1.5,color: Colors.green),
-                ),
-              )
-          ),
-        ],
+            ),),
+          ],
+        ),
       ),
     );
   }

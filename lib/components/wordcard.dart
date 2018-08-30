@@ -5,12 +5,13 @@ import 'package:collins_vocabulary/model/word.dart';
 import 'package:collins_vocabulary/common/phmp3.dart';
 import 'package:collins_vocabulary/components/detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:collins_vocabulary/model/db.dart';
 import 'dart:async';
-import 'dart:math' as math;
+
 class RememberVocab extends StatefulWidget {
   SharedPreferences prefs;
-  RememberVocab({Key key,this.prefs}) : super(key:key);
+  DBClient client;
+  RememberVocab({Key key,this.prefs, this.client}) : super(key:key);
   @override
   RememberVocabState createState(){
     return new RememberVocabState();
@@ -20,10 +21,10 @@ class RememberVocab extends StatefulWidget {
 class RememberVocabState extends State<RememberVocab> with SingleTickerProviderStateMixin {
 
   int currentIndex;
+  bool next;
   Word currentItem;
   List list = [];
-  List studied;
-  List stuiedWords;
+  List stuiedWords = [];
   int level;
   AnimationController controller;
   Animation<double> animation;
@@ -46,7 +47,12 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
           alignment = Alignment.bottomRight;
           doubleTween = new Tween(begin: 0.0,end: 1.8);
           animation = doubleTween.animate(controller);
-          currentIndex = currentIndex+1 == widget.prefs.getInt('count') ? currentIndex : currentIndex+1;
+          if(next==true){
+            currentIndex = currentIndex+1 == widget.prefs.getInt('count') ? currentIndex : currentIndex+1;
+            setState(() {
+              next = false;
+            });
+          }
         });
         controller.reverse();
       }if(status==AnimationStatus.dismissed){
@@ -57,21 +63,10 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
         });
       }
     });
-
     level = widget.prefs.getInt('level');
-    String studiedstr = widget.prefs.getString('studied');
-    if(studiedstr.isEmpty){
-      studied = [];
-    }else{
-      studied = json.decode(studiedstr);
-    }
-    List studiedList = [];
-    studied.forEach((item){
-      studiedList.add(json.decode(item));
-    });
     setState((){
-      stuiedWords = studiedList.map((item)=>item['word']).toList();
       currentIndex = 0;
+      next = false;
     });
   }
 
@@ -110,26 +105,33 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   }
 
   Future<List> getlist() async{
+    List stuiedWords = await widget.client.queryAll();
     final WholeList = await new Word().getList(level);
-    List lastWords = WholeList.where((item){
-      return !stuiedWords.contains(item['word']);
-    }).toList();
+    List lastWords;
+    if(stuiedWords != null) {
+      lastWords = WholeList.where((item){
+        return !stuiedWords.contains(item['word']);
+      }).toList();
+    }else {
+      lastWords = WholeList;
+    }
     int count = widget.prefs.getInt('count');
     int len = count > lastWords.length ? lastWords.length : count;
     return lastWords.sublist(0,len);
   }
-
-  _checkIsFinish(BuildContext context,int index,bool know){
+  _checkIsFinish(BuildContext context,int index,bool know) async{
     if(index==widget.prefs.getInt('count')){
       final snackBar = new SnackBar(
-        content: new Text('已经是最后一个',style: new TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+        content: new Text('已完成今日学习计划',style: new TextStyle(color: Colors.white),textAlign: TextAlign.center,),
       );
       Scaffold.of(context).showSnackBar(snackBar);
     }else{
       if(know){
-        studied.add(json.encode(new Word().toJson(currentItem)));
-        widget.prefs.setString('studied', json.encode(studied));
+        await widget.client.insert(currentItem);
       }
+      setState(() {
+        next = true;
+      });
       controller.forward();
     }
   }
@@ -216,7 +218,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                   ),
                                 )
                             ),
-                            /*new Expanded(
+                            new Expanded(
                                 child: new Container(
                                   decoration: new BoxDecoration(
                                     border: new Border(
@@ -236,12 +238,11 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                     ),
                                   ),
                                 )
-                            ),*/
+                            ),
                             new Expanded(
                                 child: new Container(
                                   decoration: new BoxDecoration(
                                     border: new Border(
-                                      right: const BorderSide(width: 1.0,color: Colors.grey),
                                       top: const BorderSide(width: 1.0,color: Colors.grey),
                                     ),
                                   ),

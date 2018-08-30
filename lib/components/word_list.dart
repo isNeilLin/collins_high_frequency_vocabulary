@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/components/word_detail.dart';
 import 'package:collins_vocabulary/model/word.dart';
-import 'dart:convert';
+import 'package:collins_vocabulary/model/db.dart';
+import 'dart:async';
 
 class VocabularyList extends StatefulWidget {
   SharedPreferences prefs;
@@ -18,6 +19,14 @@ class VocabularyList extends StatefulWidget {
 
 class VocabularyListState extends State<VocabularyList> {
   List list;
+  DBClient client;
+
+  @override
+  initState(){
+    super.initState();
+    client = new DBClient();
+  }
+
   Widget buildItem(BuildContext context,int index){
     Word item = new Word().getDetail(list[index]);
     return new Card(
@@ -37,32 +46,26 @@ class VocabularyListState extends State<VocabularyList> {
     );
   }
 
-  List generateList(List list){
+  Future<List> getList() async{
+    List wholeList = await new Word().getList(widget.prefs.getInt('level'));
     if(widget.label=='all'){
-      return list;
+      return wholeList;
     }
-    List studiedList = [];
-    final studied = widget.prefs.getString('studied');
-    if(studied.isEmpty){
-      studiedList = [];
-    }else{
-      List strlist = json.decode(studied);
-      strlist.forEach((item){
-        studiedList.add(json.decode(item));
-      });
-    }
-    List stuiedWords = studiedList.map((item)=>item['word']).toList();
+    List studiedList =  await client.queryAll();
     if(widget.label=='studied'){
-      return studiedList;
+      List studied = wholeList.where((item){
+        return studiedList.contains(item['word']);
+      }).toList();
+      return studied;
     }
     if(widget.label=='unstudy'){
-      List unstudy = list.where((item){
-        return !stuiedWords.contains(item['word']);
+      List unstudy = wholeList.where((item){
+        return !studiedList.contains(item['word']);
       }).toList();
       return unstudy;
     }else{
-      List lastWords = list.where((item){
-        return !stuiedWords.contains(item['word']);
+      List lastWords = wholeList.where((item){
+        return !studiedList.contains(item['word']);
       }).toList();
       int count = widget.prefs.getInt('count');
       int len = count > lastWords.length ? lastWords.length : count;
@@ -78,11 +81,10 @@ class VocabularyListState extends State<VocabularyList> {
         title: new Text(widget.title),
       ),
       body: new FutureBuilder(
-          future: new Word().getList(widget.prefs.getInt('level')),
+          future: getList(),
           builder: (context, snapshot){
             if(snapshot.hasData){
               list = snapshot.data;
-              list = generateList(list);
               return new ListView.builder(itemBuilder: buildItem,itemCount: list.length,);
             }
             return new Container(child: null,);

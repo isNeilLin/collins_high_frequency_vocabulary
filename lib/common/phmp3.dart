@@ -80,7 +80,6 @@ class PhMp3State extends State<PhMp3>{
       print('audioPlayer error : $msg');
     });
     audioPlayer.setCompletionHandler(() {
-      print('complete');
       stop();
     });
   }

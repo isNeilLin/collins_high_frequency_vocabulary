@@ -25,7 +25,7 @@ class Word {
   }
 
   Map toJson(Word word){
-    Map map;
+    Map<String, dynamic> map;
     try{
       map=  {
         'word': word.text,

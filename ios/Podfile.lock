@@ -2,26 +2,43 @@ PODS:
   - audioplayer (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - FMDB (2.7.2):
+    - FMDB/standard (= 2.7.2)
+  - FMDB/standard (2.7.2)
+  - path_provider (0.0.1):
+    - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
 
 DEPENDENCIES:
   - audioplayer (from `Pods/.symlinks/plugins/audioplayer-0.4.0/ios`)
   - Flutter (from `Pods/.symlinks/flutter/ios`)
+  - path_provider (from `Pods/.symlinks/plugins/path_provider-0.4.1/ios`)
   - shared_preferences (from `Pods/.symlinks/plugins/shared_preferences-0.4.1/ios`)
+  - sqflite (from `Pods/.symlinks/plugins/sqflite-0.11.1/ios`)
 
 EXTERNAL SOURCES:
   audioplayer:
     :path: Pods/.symlinks/plugins/audioplayer-0.4.0/ios
   Flutter:
     :path: Pods/.symlinks/flutter/ios
+  path_provider:
+    :path: Pods/.symlinks/plugins/path_provider-0.4.1/ios
   shared_preferences:
     :path: Pods/.symlinks/plugins/shared_preferences-0.4.1/ios
+  sqflite:
+    :path: Pods/.symlinks/plugins/sqflite-0.11.1/ios
 
 SPEC CHECKSUMS:
   audioplayer: 3cc64e4f5f3e231c715c8923a9bc26a19dc5da3b
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
+  path_provider: 09407919825bfe3c2deae39453b7a5b44f467873
   shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
+  sqflite: d1612813fa7db7c667bed9f1d1b508deffc56999
 
 PODFILE CHECKSUM: d76c19a85fb9cbf1e6bc37388fe47d013b210144
 
