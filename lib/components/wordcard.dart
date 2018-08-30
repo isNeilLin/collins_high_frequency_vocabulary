@@ -27,26 +27,23 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   List stuiedWords = [];
   int level;
   AnimationController controller;
-  Animation<double> animation;
-  Tween<double> doubleTween;
-  Alignment alignment;
+  Animation<Offset> animation;
+  TextDirection direction;
 
   @override
   initState() {
     super.initState();
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 500),
+        duration: new Duration(milliseconds: 400),
         vsync: this
     );
-    doubleTween = new Tween(begin: 0.0,end: -1.8);
-    alignment = Alignment.bottomLeft;
-    animation = doubleTween.animate(controller)
+    animation = new Tween(
+      begin: new Offset(0.0, 0.0),
+      end: new Offset(1.2, 0.0),
+    ).animate(new CurvedAnimation(parent: controller, curve: Curves.easeOut))
     ..addStatusListener((status){
       if(status==AnimationStatus.completed){
         setState((){
-          alignment = Alignment.bottomRight;
-          doubleTween = new Tween(begin: 0.0,end: 1.8);
-          animation = doubleTween.animate(controller);
           if(next==true){
             currentIndex = currentIndex+1 == widget.prefs.getInt('count') ? currentIndex : currentIndex+1;
             setState(() {
@@ -55,18 +52,13 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
           }
         });
         controller.reverse();
-      }if(status==AnimationStatus.dismissed){
-        setState((){
-          alignment = Alignment.bottomLeft;
-          doubleTween = new Tween(begin: 0.0,end: -1.8);
-          animation = doubleTween.animate(controller);
-        });
       }
     });
     level = widget.prefs.getInt('level');
     setState((){
       currentIndex = 0;
       next = false;
+      direction = TextDirection.rtl;
     });
   }
 
@@ -119,6 +111,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
     int len = count > lastWords.length ? lastWords.length : count;
     return lastWords.sublist(0,len);
   }
+
   _checkIsFinish(BuildContext context,int index,bool know) async{
     if(index==widget.prefs.getInt('count')){
       final snackBar = new SnackBar(
@@ -127,11 +120,16 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
       Scaffold.of(context).showSnackBar(snackBar);
     }else{
       if(know){
+        setState(() {
+          direction = TextDirection.ltr;
+        });
         await widget.client.insert(currentItem);
+      }else{
+        setState(() {
+          direction = TextDirection.rtl;
+          next = true;
+        });
       }
-      setState(() {
-        next = true;
-      });
       controller.forward();
     }
   }
@@ -145,15 +143,9 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
         child: new Column(
           children: <Widget>[
             new Expanded(
-              child:new AnimatedBuilder(
-                animation: animation,
-                builder: (BuildContext context,Widget child){
-                  return new Transform(
-                    alignment: alignment,
-                    transform: new Matrix4.rotationZ(animation.value),
-                    child: child,
-                  );
-                },
+              child: new SlideTransition(
+                position: animation,
+                textDirection: direction,
                 child: new GestureDetector(
                   onHorizontalDragUpdate: (DragUpdateDetails detail){
                     final primaryDelta = detail.primaryDelta;
@@ -231,7 +223,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                                     child: new Center(
                                       child: new GestureDetector(
                                           onTap: (){
-                                            _checkIsFinish(context,currentIndex+1,true);
+                                            _checkIsFinish(context,currentIndex+1,false);
                                           },
                                           child: new Text('模糊',style: new TextStyle(color: Colors.blue,fontSize: 18.0),)
                                       ),
@@ -264,8 +256,8 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                       ],
                     ),
                   ),
-                )
-              )
+                ),
+              ),
             ),
           ],
         ),
