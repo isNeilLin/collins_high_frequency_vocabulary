@@ -34,13 +34,13 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   initState() {
     super.initState();
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 400),
+        duration: new Duration(milliseconds: 500),
         vsync: this
     );
     animation = new Tween(
       begin: new Offset(0.0, 0.0),
-      end: new Offset(1.2, 0.0),
-    ).animate(new CurvedAnimation(parent: controller, curve: Curves.easeOut))
+      end: new Offset(1.0, 0.0),
+    ).animate(new CurvedAnimation(parent: controller, curve: Curves.easeInOut))
     ..addStatusListener((status){
       if(status==AnimationStatus.completed){
         setState((){
@@ -146,7 +146,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
               child: new SlideTransition(
                 position: animation,
                 textDirection: direction,
-                child: new GestureDetector(
+                child:  new GestureDetector(
                   onHorizontalDragUpdate: (DragUpdateDetails detail){
                     final primaryDelta = detail.primaryDelta;
                     if(primaryDelta > 0 && primaryDelta.abs() > 25){

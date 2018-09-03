@@ -68,115 +68,115 @@ class MineState extends State<Mine> {
             ),
           ),
           new Expanded(
-              child: new ListView(
-                children: <Widget>[
-                  new InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(
-                          new MaterialPageRoute(
-                              builder: (context) => new SelectBook(prefs:widget.prefs)
-                          )
-                      );
-                    },
-                    child: new Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Text('切换单词书',style: new TextStyle(fontSize: 16.0),),
-                            new Icon(Icons.chevron_right,size: 30.0,color: Colors.grey)
-                          ],
+            child: new ListView(
+              children: <Widget>[
+                new InkWell(
+                  onTap: (){
+                    Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder: (context) => new SelectBook(prefs:widget.prefs)
                         )
-                    ),
-                  ),
-                  new InkWell(
-                    onTap: () async {
-                      await Navigator.of(context).push(
-                          new MaterialPageRoute(
-                              builder: (context) => new ChangePlan(prefs:widget.prefs)
-                          )
-                      );
-                      setState((){
-                        count = widget.prefs.getInt('count');
-                      });
-                    },
-                    child: new Container(
+                    );
+                  },
+                  child: new Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new Text('当前复习计划：每天${count}个单词',style: new TextStyle(fontSize: 16.0),),
+                          new Text('切换单词书',style: new TextStyle(fontSize: 16.0),),
                           new Icon(Icons.chevron_right,size: 30.0,color: Colors.grey)
                         ],
-                      ),
+                      )
+                  ),
+                ),
+                new InkWell(
+                  onTap: () async {
+                    await Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder: (context) => new ChangePlan(prefs:widget.prefs)
+                        )
+                    );
+                    setState((){
+                      count = widget.prefs.getInt('count');
+                    });
+                  },
+                  child: new Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Text('当前复习计划：每天${count}个单词',style: new TextStyle(fontSize: 16.0),),
+                        new Icon(Icons.chevron_right,size: 30.0,color: Colors.grey)
+                      ],
                     ),
                   ),
-                  new CheckboxListTile(
+                ),
+                new CheckboxListTile(
+                  activeColor: Colors.blueGrey,
+                  dense: false,
+                  title: const Text('英式发音'),
+                  value: en_ph,
+                  onChanged: (bool value) { setState(() {
+                    en_ph = value;
+                    widget.prefs.setBool('en_ph', value);
+                  }); },
+                ),
+                new CheckboxListTile(
+                  activeColor: Colors.blueGrey,
+                  dense: false,
+                  title: const Text('美式发音'),
+                  value: !en_ph,
+                  onChanged: (bool value) { setState(() {
+                    en_ph = !value;
+                    widget.prefs.setBool('en_ph', !value);
+                  }); },
+                ),
+                new SwitchListTile(
                     activeColor: Colors.blueGrey,
-                    dense: false,
-                    title: const Text('英式发音'),
-                    value: en_ph,
-                    onChanged: (bool value) { setState(() {
-                      en_ph = value;
-                      widget.prefs.setBool('en_ph', value);
-                    }); },
-                  ),
-                  new CheckboxListTile(
+                    title: new Text('自动播放发音'),
+                    value: AutoSound,
+                    onChanged: (bool value) {
+                      setState((){
+                        AutoSound = value;
+                        widget.prefs.setBool('autoplay', value);
+                      });
+                    }
+                ),
+                new SwitchListTile(
                     activeColor: Colors.blueGrey,
-                    dense: false,
-                    title: const Text('美式发音'),
-                    value: !en_ph,
-                    onChanged: (bool value) { setState(() {
-                      en_ph = !value;
-                      widget.prefs.setBool('en_ph', !value);
-                    }); },
-                  ),
-                  new SwitchListTile(
-                      activeColor: Colors.blueGrey,
-                      title: new Text('自动播放发音'),
-                      value: AutoSound,
-                      onChanged: (bool value) {
-                        setState((){
-                          AutoSound = value;
-                          widget.prefs.setBool('autoplay', value);
-                        });
-                      }
-                  ),
-                  new SwitchListTile(
-                      activeColor: Colors.blueGrey,
-                      title: new Text('开启柯林斯词典'),
-                      value: showColins,
-                      onChanged: (bool value) {
-                        setState((){
-                          showColins = value;
-                          widget.prefs.setBool('showcollins', value);
-                        });
-                      }
-                  ),
-                  new SwitchListTile(
-                      activeColor: Colors.blueGrey,
-                      title: new Text('显示中文翻译'),
-                      value: showCn,
-                      onChanged: (bool value) {
-                        setState((){
-                          showCn = value;
-                          widget.prefs.setBool('showCn', value);
-                        });
-                      }
-                  ),
-                  new SwitchListTile(
-                      activeColor: Colors.blueGrey,
-                      title: new Text('显示例句'),
-                      value: Sentence,
-                      onChanged: (bool value) {
-                        setState((){
-                          Sentence = value;
-                          widget.prefs.setBool('sentence', value);
-                        });
-                      }
-                  ),
-                ],
-              ),
+                    title: new Text('开启柯林斯词典'),
+                    value: showColins,
+                    onChanged: (bool value) {
+                      setState((){
+                        showColins = value;
+                        widget.prefs.setBool('showcollins', value);
+                      });
+                    }
+                ),
+                new SwitchListTile(
+                    activeColor: Colors.blueGrey,
+                    title: new Text('显示中文翻译'),
+                    value: showCn,
+                    onChanged: (bool value) {
+                      setState((){
+                        showCn = value;
+                        widget.prefs.setBool('showCn', value);
+                      });
+                    }
+                ),
+                new SwitchListTile(
+                    activeColor: Colors.blueGrey,
+                    title: new Text('显示例句'),
+                    value: Sentence,
+                    onChanged: (bool value) {
+                      setState((){
+                        Sentence = value;
+                        widget.prefs.setBool('sentence', value);
+                      });
+                    }
+                ),
+              ],
+            ),
           )
         ],
       ),
