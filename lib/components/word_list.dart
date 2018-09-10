@@ -27,10 +27,17 @@ class VocabularyListState extends State<VocabularyList> {
     client = new DBClient();
   }
 
+  @override
+  dispose(){
+    print('dispose');
+    super.dispose();
+  }
+
   Widget buildItem(BuildContext context,int index){
     Word item = new Word().getDetail(list[index]);
     return new Card(
       elevation: 0.5,
+      key: Key(index.toString()),
       color: Colors.white70,
       child: new GestureDetector(
         child: new Container(

@@ -26,6 +26,12 @@ class DetailMeansState extends State<DetailMeans> {
     });
   }
 
+  @override
+  void dispose(){
+    audioPlayer = null;
+    super.dispose();
+  }
+
   Widget buildExpalin(){
     return new Text(widget.word.explain);
   }
@@ -79,7 +85,7 @@ class DetailMeansState extends State<DetailMeans> {
   Widget _buildCnTitle(){
     if(widget.showCn){
       return new Container(
-        padding: const EdgeInsets.only(top:16.0,left: 16.0),
+        padding: const EdgeInsets.only(top:16.0,left: 16.0, bottom: 8.0),
         child: new Text('中文释义',
           style: new TextStyle(color: Colors.blueGrey,fontSize: 15.0,fontWeight: FontWeight.w900),
         ),
@@ -111,7 +117,7 @@ class DetailMeansState extends State<DetailMeans> {
   }
 
   Widget _buildCollinsTitle(){
-    if(widget.showCollins){
+    if(widget.showCollins && widget.word.collins[0]['def'].toString().isNotEmpty){
       return new Container(
         padding: const EdgeInsets.only(bottom:4.0,left: 16.0),
         child: new Text('柯林斯词典英英释义',
@@ -134,14 +140,7 @@ class DetailMeansState extends State<DetailMeans> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text('${en['def']}',style: new TextStyle(fontSize: 17.0,color: Colors.black87),),
-                  new Container(
-                    padding: const EdgeInsets.only(top: 4.0,bottom: 8.0),
-                    child:new Text('${en['tran']}',style: new TextStyle(fontSize: 17.0,color: Colors.black),),
-                  ),
-                  _buildCollinsExample(en,index),
-                ],
+                children: _getCollinsContent(en, index),
               )
           );
         },
@@ -149,6 +148,23 @@ class DetailMeansState extends State<DetailMeans> {
       );
     }else{
       return new Text('');
+    }
+  }
+
+  List<Widget> _getCollinsContent(en, index){
+    if(widget.word.collins[0]['def'].toString().isNotEmpty){
+      return [
+        new Text('${en['def']}',style: new TextStyle(fontSize: 17.0,color: Colors.black87),),
+        new Container(
+          padding: const EdgeInsets.only(top: 4.0,bottom: 8.0),
+          child:new Text('${en['tran']}',style: new TextStyle(fontSize: 17.0,color: Colors.black),),
+        ),
+        _buildCollinsExample(en,index),
+      ];
+    }else{
+      return [
+        _buildCollinsExample(en,index),
+      ];
     }
   }
 
@@ -174,8 +190,6 @@ class DetailMeansState extends State<DetailMeans> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.word);
-    print(widget.word.cn_mean);
     if(widget.word.explain.toString().isEmpty){
       return buildExpalin();
     }

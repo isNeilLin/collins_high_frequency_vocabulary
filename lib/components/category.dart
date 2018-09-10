@@ -2,10 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/components/word_list.dart';
 
-class WordList extends StatelessWidget {
+class WordList extends StatefulWidget {
   SharedPreferences prefs;
   WordList({Key key,this.prefs}) : super(key:key);
 
+  @override
+  State<StatefulWidget> createState(){
+    return WordListState();
+  }
+}
+
+class WordListState extends State<WordList> {
+  @override
+  void initState(){
+    super.initState();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -19,10 +36,14 @@ class WordList extends StatelessWidget {
         color: Colors.blueGrey,
         child: new Row(
           children: <Widget>[
-            new Expanded(child: new Container(
+            new Expanded(
+              key: Key('value1'),
+              child: new Container(
               child: new Column(
                 children: <Widget>[
-                  new Expanded(child:new Container(
+                  new Expanded(
+                    key: Key('value2'),
+                    child:new Container(
                     margin: const EdgeInsets.only(right: 10.0),
                     decoration: new BoxDecoration(
                       color: Colors.white,
@@ -33,7 +54,7 @@ class WordList extends StatelessWidget {
                       onTap: (){
                         Navigator.push(context,
                             new MaterialPageRoute(
-                                builder: (context)=>new VocabularyList(prefs: prefs, title: '所有单词',label:'all')
+                                builder: (context)=>new VocabularyList(prefs: widget.prefs, title: '所有单词',label:'all')
                             )
                         );
                       },
@@ -45,7 +66,9 @@ class WordList extends StatelessWidget {
                       ),
                     ),
                   ),),
-                  new Expanded(child: new Container(
+                  new Expanded(
+                    key: Key('value3'),
+                    child: new Container(
                     margin: const EdgeInsets.only(top: 20.0,right: 10.0),
                     decoration: new BoxDecoration(
                       color: Colors.white,
@@ -56,7 +79,7 @@ class WordList extends StatelessWidget {
                       onTap: (){
                         Navigator.push(context,
                             new MaterialPageRoute(
-                                builder: (context)=>new VocabularyList(prefs: prefs,title: '尚未学习',label:'unstudy')
+                                builder: (context)=>new VocabularyList(prefs: widget.prefs,title: '尚未学习',label:'unstudy')
                             )
                         );
                       },
@@ -71,7 +94,9 @@ class WordList extends StatelessWidget {
                 ],
               ),
             ),),
-            new Expanded(child: new Container(
+            new Expanded(
+              key: Key('value4'),
+              child: new Container(
               child: new Column(
                 children: <Widget>[
                   new Expanded(child: new Container(
@@ -85,7 +110,7 @@ class WordList extends StatelessWidget {
                       onTap: (){
                         Navigator.push(context,
                             new MaterialPageRoute(
-                                builder: (context)=>new VocabularyList(prefs: prefs,title: '正在学习',label:'studying')
+                                builder: (context)=>new VocabularyList(prefs: widget.prefs,title: '正在学习',label:'studying')
                             )
                         );
                       },
@@ -97,7 +122,9 @@ class WordList extends StatelessWidget {
                       ),
                     ),
                   ),),
-                  new Expanded(child: new Container(
+                  new Expanded(
+                      key: Key('value5'),
+                      child: new Container(
                       margin: const EdgeInsets.only(top: 20.0,left:10.0),
                       decoration: new BoxDecoration(
                         color: Colors.white,
@@ -108,7 +135,7 @@ class WordList extends StatelessWidget {
                         onTap: (){
                           Navigator.push(context,
                               new MaterialPageRoute(
-                                  builder: (context)=>new VocabularyList(prefs: prefs,title: '已经掌握',label:'studied')
+                                  builder: (context)=>new VocabularyList(prefs: widget.prefs,title: '已经掌握',label:'studied')
                               )
                           );
                         },

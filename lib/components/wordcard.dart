@@ -51,7 +51,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
             });
           }
         });
-        controller.reverse();
+        // controller.reverse();
       }
     });
     level = widget.prefs.getInt('level');
@@ -152,7 +152,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                     if(primaryDelta > 0 && primaryDelta.abs() > 25){
                       _checkIsFinish(context,currentIndex+1,true);
                     }else if(primaryDelta < 0 && primaryDelta.abs() > 25){
-                      _checkIsFinish(context,currentIndex-1,false);
+                      _checkIsFinish(context,currentIndex+1,false);
                     }
                   },
                   onHorizontalDragEnd: (DragEndDetails detail){

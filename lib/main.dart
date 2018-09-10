@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:collins_vocabulary/components/category.dart';
 import 'package:collins_vocabulary/components/wordcard.dart';
 import 'package:collins_vocabulary/components/setting.dart';
+import 'package:collins_vocabulary/components/dictionary.dart';
 import 'package:collins_vocabulary/model/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,9 +88,12 @@ class HomePageState extends State<HomePage>{
             TabView = new RememberVocab(prefs:prefs, client: client);
             break;
           case 1:
-            TabView = new WordList(prefs:prefs);
+            TabView = new Dictionary(prefs:prefs);
             break;
           case 2:
+            TabView = new WordList(prefs:prefs);
+            break;
+          case 3:
             TabView = new Mine(prefs:prefs);
             break;
           default:
@@ -104,10 +108,16 @@ class HomePageState extends State<HomePage>{
       bottomNavigationBar: new BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: _onTap,
+          type: BottomNavigationBarType.fixed,
+          iconSize: 24.0,
           items: [
             new BottomNavigationBarItem(
                 icon: new Icon(Icons.home,size: 24.0,),
-                title: new Text('背单词',style: new TextStyle(fontSize: 12.0)),
+                title: new Text('背词',style: new TextStyle(fontSize: 12.0)),
+            ),
+            new BottomNavigationBarItem(
+                icon: new Icon(Icons.g_translate,size: 24.0,),
+                title: new Text('词典',style: new TextStyle(fontSize: 12.0)),
             ),
             new BottomNavigationBarItem(
               icon: new Icon(Icons.library_books,size: 24.0,),
