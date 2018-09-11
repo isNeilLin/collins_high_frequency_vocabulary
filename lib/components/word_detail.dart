@@ -5,8 +5,8 @@ import 'package:collins_vocabulary/common/detail_means.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WordDetail extends StatefulWidget {
-  Word item;
-  SharedPreferences prefs;
+  final Word item;
+  final SharedPreferences prefs;
   WordDetail({Key key,this.item,this.prefs}) : super(key:key);
 
   @override

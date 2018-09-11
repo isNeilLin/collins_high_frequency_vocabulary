@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/common/detail_means.dart';
 
 class Dictionary extends StatefulWidget {
-  SharedPreferences prefs;
+  final SharedPreferences prefs;
   Dictionary({Key key,this.prefs}): super(key:key);
 
   @override
@@ -59,7 +59,7 @@ class DictionaryState extends State<Dictionary> {
 
   _translateResponse(response){
     try{
-      var json = JSON.decode(response.body);
+      var json = jsonDecode(response.body);
       List parts = [];
       List example = [];
       json['defs'].forEach((item){
@@ -116,6 +116,7 @@ class DictionaryState extends State<Dictionary> {
       resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         elevation: 0.0,
+        centerTitle: true,
         title: new Text('词典'),
       ),
       body: new Container(

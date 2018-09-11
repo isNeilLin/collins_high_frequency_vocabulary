@@ -6,9 +6,9 @@ import 'package:collins_vocabulary/model/db.dart';
 import 'dart:async';
 
 class VocabularyList extends StatefulWidget {
-  SharedPreferences prefs;
-  String title;
-  String label;
+  final SharedPreferences prefs;
+  final String title;
+  final String label;
   VocabularyList({Key key,this.prefs,this.title,this.label}) : super(key:key);
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectBook extends StatefulWidget {
-  SharedPreferences prefs;
+  final SharedPreferences prefs;
   SelectBook({Key key,this.prefs}) : super(key:key);
 
   @override

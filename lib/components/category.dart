@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/components/word_list.dart';
 
 class WordList extends StatefulWidget {
-  SharedPreferences prefs;
+  final SharedPreferences prefs;
   WordList({Key key,this.prefs}) : super(key:key);
 
   @override

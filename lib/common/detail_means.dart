@@ -3,10 +3,10 @@ import 'package:collins_vocabulary/model/word.dart';
 import 'package:audioplayer2/audioplayer2.dart';
 
 class DetailMeans extends StatefulWidget {
-  Word word;
-  bool showCn;
-  bool showCollins;
-  bool showSentence;
+  final Word word;
+  final bool showCn;
+  final bool showCollins;
+  final bool showSentence;
   DetailMeans({Key key,this.word,this.showCn,this.showCollins,this.showSentence}):super(key:key);
   @override
   DetailMeansState createState() => new DetailMeansState();

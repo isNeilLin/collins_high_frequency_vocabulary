@@ -15,7 +15,7 @@ class Word {
   Word({this.text,this.explain,this.ph_en,this.ph_en_mp3,this.ph_am,this.ph_am_mp3,this.cn_mean,this.collins,this.origin});
 
   Future<List> getList(level) async {
-    String path = 'assets/json/collins${level}.json';
+    String path = 'assets/json/collins$level.json';
     final jsonstr = await rootBundle.loadString(path);
     return json.decode(jsonstr);
   }

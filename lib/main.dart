@@ -37,7 +37,7 @@ class HomePage extends StatefulWidget {
 }
 class HomePageState extends State<HomePage>{
   DBClient client;
-  Widget TabView = null;
+  Widget tabView;
   SharedPreferences prefs;
   int currentIndex = 0;
   int level = 5;
@@ -65,7 +65,7 @@ class HomePageState extends State<HomePage>{
       prefs.setInt('studying', 0);
     }
     setState((){
-      TabView = new RememberVocab(prefs:prefs, client: client);
+      tabView = new RememberVocab(prefs:prefs, client: client);
     });
   }
   
@@ -85,26 +85,26 @@ class HomePageState extends State<HomePage>{
         currentIndex = index;
         switch(currentIndex) {
           case 0:
-            TabView = new RememberVocab(prefs:prefs, client: client);
+            tabView = new RememberVocab(prefs:prefs, client: client);
             break;
           case 1:
-            TabView = new Dictionary(prefs:prefs);
+            tabView = new Dictionary(prefs:prefs);
             break;
           case 2:
-            TabView = new WordList(prefs:prefs);
+            tabView = new WordList(prefs:prefs);
             break;
           case 3:
-            TabView = new Mine(prefs:prefs);
+            tabView = new Mine(prefs:prefs);
             break;
           default:
-            TabView = new RememberVocab(client: client);
+            tabView = new RememberVocab(client: client);
         }
     });
   }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: TabView,
+      body: tabView,
       bottomNavigationBar: new BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: _onTap,

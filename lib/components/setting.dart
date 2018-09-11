@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/components/plan_option.dart';
 
 class Mine extends StatefulWidget {
-  SharedPreferences prefs;
+  final SharedPreferences prefs;
   Mine({Key key,this.prefs}) : super(key:key);
 
   @override
@@ -13,20 +13,20 @@ class Mine extends StatefulWidget {
 
 class MineState extends State<Mine> {
   bool showColins;
-  bool AutoSound;
-  bool Sentence;
+  bool autoSound;
+  bool sentence;
   bool showCn;
-  bool en_ph;
+  bool enPh;
   int count;
   @override
   void initState() {
     super.initState();
     showColins = widget.prefs.getBool('showcollins');
-    Sentence = widget.prefs.getBool('sentence');
+    sentence = widget.prefs.getBool('sentence');
     showCn = widget.prefs.getBool('showCn');
-    AutoSound = widget.prefs.getBool('autoplay');
+    autoSound = widget.prefs.getBool('autoplay');
     count = widget.prefs.getInt('count');
-    en_ph = widget.prefs.getBool('en_ph');
+    enPh = widget.prefs.getBool('en_ph');
   }
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class MineState extends State<Mine> {
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        new Text('当前复习计划：每天${count}个单词',style: new TextStyle(fontSize: 16.0),),
+                        new Text('当前复习计划：每天$count个单词',style: new TextStyle(fontSize: 16.0),),
                         new Icon(Icons.chevron_right,size: 30.0,color: Colors.grey)
                       ],
                     ),
@@ -115,29 +115,29 @@ class MineState extends State<Mine> {
                   activeColor: Colors.blueGrey,
                   dense: false,
                   title: const Text('英式发音'),
-                  value: en_ph,
+                  value: enPh,
                   onChanged: (bool value) { setState(() {
-                    en_ph = value;
-                    widget.prefs.setBool('en_ph', value);
+                    enPh = value;
+                    widget.prefs.setBool('enPh', value);
                   }); },
                 ),
                 new CheckboxListTile(
                   activeColor: Colors.blueGrey,
                   dense: false,
                   title: const Text('美式发音'),
-                  value: !en_ph,
+                  value: !enPh,
                   onChanged: (bool value) { setState(() {
-                    en_ph = !value;
-                    widget.prefs.setBool('en_ph', !value);
+                    enPh = !value;
+                    widget.prefs.setBool('enPh', !value);
                   }); },
                 ),
                 new SwitchListTile(
                     activeColor: Colors.blueGrey,
                     title: new Text('自动播放发音'),
-                    value: AutoSound,
+                    value: autoSound,
                     onChanged: (bool value) {
                       setState((){
-                        AutoSound = value;
+                        autoSound = value;
                         widget.prefs.setBool('autoplay', value);
                       });
                     }
@@ -167,10 +167,10 @@ class MineState extends State<Mine> {
                 new SwitchListTile(
                     activeColor: Colors.blueGrey,
                     title: new Text('显示例句'),
-                    value: Sentence,
+                    value: sentence,
                     onChanged: (bool value) {
                       setState((){
-                        Sentence = value;
+                        sentence = value;
                         widget.prefs.setBool('sentence', value);
                       });
                     }

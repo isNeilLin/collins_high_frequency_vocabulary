@@ -9,8 +9,8 @@ import 'package:collins_vocabulary/model/db.dart';
 import 'dart:async';
 
 class RememberVocab extends StatefulWidget {
-  SharedPreferences prefs;
-  DBClient client;
+  final SharedPreferences prefs;
+  final DBClient client;
   RememberVocab({Key key,this.prefs, this.client}) : super(key:key);
   @override
   RememberVocabState createState(){
@@ -98,14 +98,14 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
 
   Future<List> getlist() async{
     List stuiedWords = await widget.client.queryAll();
-    final WholeList = await new Word().getList(level);
+    final wholeList = await new Word().getList(level);
     List lastWords;
     if(stuiedWords != null) {
-      lastWords = WholeList.where((item){
+      lastWords = wholeList.where((item){
         return !stuiedWords.contains(item['word']);
       }).toList();
     }else {
-      lastWords = WholeList;
+      lastWords = wholeList;
     }
     int count = widget.prefs.getInt('count');
     int len = count > lastWords.length ? lastWords.length : count;

@@ -4,8 +4,8 @@ import 'package:collins_vocabulary/common/detail_means.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Means extends StatefulWidget {
-  Word currentItem;
-  SharedPreferences prefs;
+  final Word currentItem;
+  final SharedPreferences prefs;
 
   Means({Key key, this.currentItem,this.prefs}) : super(key:key);
   @override
