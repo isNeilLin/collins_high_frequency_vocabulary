@@ -9,7 +9,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.0
   http: ^0.11.3
-  audioplayer: ^0.4.0
+  audioplayer2: ^0.5.2
   shared_preferences: ^0.4.1
   sqflite: any
   path_provider: ^0.4.1

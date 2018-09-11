@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayer/audioplayer.dart';
+import 'package:audioplayer2/audioplayer2.dart';
 import 'dart:io';
 
 class PhMp3 extends StatefulWidget {
@@ -15,6 +15,7 @@ class PhMp3 extends StatefulWidget {
 class PhMp3State extends State<PhMp3>{
   bool playing = false;
   AudioPlayer audioPlayer;
+  var _audioPlayerStateSubscription;
 
   @override
   void initState() {
@@ -35,25 +36,25 @@ class PhMp3State extends State<PhMp3>{
 
   @override
   void dispose(){
+    audioPlayer.stop();
     setState((){
       playing = false;
     });
+    _audioPlayerStateSubscription.cancel();
     super.dispose();
   }
 
   void play(url) async {
     initAudio();
     try{
-      final result = await audioPlayer.play(url);
-      if (result == 1) setState(() => playing = true);
+      await audioPlayer.play(url);
+      setState(() => playing = true);
     }catch(e){
-      print(widget.src);
       stop();
     }
   }
 
   void stop() async {
-    print('stop');
     try{
       await audioPlayer.stop();
       setState(() => playing = false);
@@ -72,14 +73,12 @@ class PhMp3State extends State<PhMp3>{
   }
 
   void initAudio(){
-    if(Platform.isIOS){
-      return;
-    }
     audioPlayer = new AudioPlayer();
-    audioPlayer.setErrorHandler((msg) {
-      print('audioPlayer error : $msg');
-    });
-    audioPlayer.setCompletionHandler(() {
+    _audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s){
+      if(s == AudioPlayerState.COMPLETED){
+        stop();
+      }
+    }, onError: (msg){
       stop();
     });
   }

@@ -52,11 +52,12 @@ class WordListState extends State<WordList> {
                     ),
                     child: new InkWell(
                       onTap: (){
-                        Navigator.push(context,
-                            new MaterialPageRoute(
-                                builder: (context)=>new VocabularyList(prefs: widget.prefs, title: '所有单词',label:'all')
-                            )
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(
+                              builder: (context)=>new VocabularyList(prefs: widget.prefs, title: '所有单词',label:'all')
+                          )
                         );
+                        super.dispose();
                       },
                       child: new Center(
                         child: new Text('所有单词',

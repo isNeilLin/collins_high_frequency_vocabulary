@@ -51,7 +51,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
             });
           }
         });
-        // controller.reverse();
+        controller.reverse();
       }
     });
     level = widget.prefs.getInt('level');

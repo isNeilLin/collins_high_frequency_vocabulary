@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:collins_vocabulary/model/word.dart';
-import 'package:audioplayer/audioplayer.dart';
+import 'package:audioplayer2/audioplayer2.dart';
 
 class DetailMeans extends StatefulWidget {
   Word word;
@@ -14,20 +14,24 @@ class DetailMeans extends StatefulWidget {
 
 class DetailMeansState extends State<DetailMeans> {
   AudioPlayer audioPlayer = new AudioPlayer();
+  var _audioPlayerStateSubscription;
 
   @override
   void initState(){
     super.initState();
-    audioPlayer.setCompletionHandler(() async{
-      await audioPlayer.stop();
-    });
-    audioPlayer.setErrorHandler((msg) {
-      print('examplePlayer error : $msg');
+    _audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s){
+      if(s == AudioPlayerState.COMPLETED){
+        audioPlayer.stop();
+      }
+    }, onError: (msg){
+      audioPlayer.stop();
     });
   }
 
   @override
   void dispose(){
+    _audioPlayerStateSubscription.cancel();
+    audioPlayer.stop();
     audioPlayer = null;
     super.dispose();
   }

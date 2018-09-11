@@ -100,7 +100,9 @@ class DictionaryState extends State<Dictionary> {
 
   _getResult(){
     if(curWord==null || curWord.text == null){
-      return new Container();
+      return new Expanded(child:
+       new Container(child: new Center(child: new Text(''),),)
+      );
     }else{
       return new DetailMeans(word: curWord,showCn:true,showCollins:true,showSentence:true);
     }
@@ -111,6 +113,7 @@ class DictionaryState extends State<Dictionary> {
   @override
   Widget build(BuildContext context){
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         elevation: 0.0,
         title: new Text('词典'),
@@ -121,7 +124,6 @@ class DictionaryState extends State<Dictionary> {
             new Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: new TextField(
-                autofocus: true,
                 style: const TextStyle(fontSize: 22.0,color: Colors.black87),
                 decoration: const InputDecoration(
                   hintText: 'Input the word here...',
