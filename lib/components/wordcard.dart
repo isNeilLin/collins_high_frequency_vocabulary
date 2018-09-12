@@ -9,9 +9,9 @@ import 'package:collins_vocabulary/model/db.dart';
 import 'dart:async';
 
 class RememberVocab extends StatefulWidget {
-  final SharedPreferences prefs;
-  final DBClient client;
-  RememberVocab({Key key,this.prefs, this.client}) : super(key:key);
+  SharedPreferences prefs;
+
+  RememberVocab({Key key, this.prefs}) : super(key:key);
   @override
   RememberVocabState createState(){
     return new RememberVocabState();
@@ -19,13 +19,12 @@ class RememberVocab extends StatefulWidget {
 }
 
 class RememberVocabState extends State<RememberVocab> with SingleTickerProviderStateMixin {
-
+  DBClient client;
   int currentIndex;
   bool next;
   Word currentItem;
   List list = [];
   List stuiedWords = [];
-  int level;
   AnimationController controller;
   Animation<Offset> animation;
   TextDirection direction;
@@ -41,20 +40,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
       begin: new Offset(0.0, 0.0),
       end: new Offset(1.0, 0.0),
     ).animate(new CurvedAnimation(parent: controller, curve: Curves.easeInOut))
-    ..addStatusListener((status){
-      if(status==AnimationStatus.completed){
-        setState((){
-          if(next==true){
-            currentIndex = currentIndex+1 == widget.prefs.getInt('count') ? currentIndex : currentIndex+1;
-            setState(() {
-              next = false;
-            });
-          }
-        });
-        controller.reverse();
-      }
-    });
-    level = widget.prefs.getInt('level');
+    ..addStatusListener(statusListener);
     setState((){
       currentIndex = 0;
       next = false;
@@ -64,8 +50,29 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
 
   @override
   void dispose(){
+    animation.removeStatusListener(statusListener);
     controller.dispose();
     super.dispose();
+  }
+
+  statusListener(status){
+    if(status==AnimationStatus.completed && mounted){
+      setState((){
+        if(next==true && mounted){
+          currentIndex = currentIndex+1 == widget.prefs.getInt('count') ? currentIndex : currentIndex+1;
+          setState(() {
+            next = false;
+          });
+        }
+      });
+      controller.reverse();
+    }
+  }
+
+  Future<int> getLevel() async {
+    client = new DBClient();
+    final int level = widget.prefs.getInt('level');
+    return level;
   }
 
   Widget _getPhMp3(){
@@ -97,7 +104,8 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   }
 
   Future<List> getlist() async{
-    List stuiedWords = await widget.client.queryAll();
+    final int level = await getLevel();
+    List stuiedWords = await client.queryAll();
     final wholeList = await new Word().getList(level);
     List lastWords;
     if(stuiedWords != null) {
@@ -118,12 +126,12 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
         content: new Text('已完成今日学习计划',style: new TextStyle(color: Colors.white),textAlign: TextAlign.center,),
       );
       Scaffold.of(context).showSnackBar(snackBar);
-    }else{
+    }else if(mounted){
       if(know){
         setState(() {
           direction = TextDirection.ltr;
         });
-        await widget.client.insert(currentItem);
+        await client.insert(currentItem);
       }else{
         setState(() {
           direction = TextDirection.rtl;
@@ -147,17 +155,6 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                 position: animation,
                 textDirection: direction,
                 child:  new GestureDetector(
-                  onHorizontalDragUpdate: (DragUpdateDetails detail){
-                    final primaryDelta = detail.primaryDelta;
-                    if(primaryDelta > 0 && primaryDelta.abs() > 25){
-                      _checkIsFinish(context,currentIndex+1,true);
-                    }else if(primaryDelta < 0 && primaryDelta.abs() > 25){
-                      _checkIsFinish(context,currentIndex+1,false);
-                    }
-                  },
-                  onHorizontalDragEnd: (DragEndDetails detail){
-                    debugPrint(detail.primaryVelocity.toString());
-                  },
                   child: new Container(
                     margin: const EdgeInsets.all(16.0),
                     width: 380.0,

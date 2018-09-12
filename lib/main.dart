@@ -3,8 +3,8 @@ import 'package:collins_vocabulary/components/category.dart';
 import 'package:collins_vocabulary/components/wordcard.dart';
 import 'package:collins_vocabulary/components/setting.dart';
 import 'package:collins_vocabulary/components/dictionary.dart';
-import 'package:collins_vocabulary/model/db.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 void main() async{
   runApp(new MyApp());
@@ -36,18 +36,13 @@ class HomePage extends StatefulWidget {
   }
 }
 class HomePageState extends State<HomePage>{
-  DBClient client;
   Widget tabView;
   SharedPreferences prefs;
+  PageController pageController;
   int currentIndex = 0;
-  int level = 5;
-  
-  void initDB() async{
-    client = new DBClient();
-  }
 
-  void initPrefs() async {
-    prefs = await SharedPreferences.getInstance();
+  Future<SharedPreferences> initPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final level = prefs.getInt('level');
     if(level==null){
       prefs.setInt('level', 5);
@@ -64,47 +59,52 @@ class HomePageState extends State<HomePage>{
       prefs.setString('studied', '');
       prefs.setInt('studying', 0);
     }
-    setState((){
-      tabView = new RememberVocab(prefs:prefs, client: client);
-    });
+    return prefs;
   }
   
   @override
   void initState() {
     super.initState();
-    initPrefs();
-    initDB();
+    pageController = new PageController(initialPage: currentIndex);
   }
   @override
   void dispose() {
+    pageController.dispose();
     super.dispose();
   }
 
   void _onTap(int index){
-    setState((){
-        currentIndex = index;
-        switch(currentIndex) {
-          case 0:
-            tabView = new RememberVocab(prefs:prefs, client: client);
-            break;
-          case 1:
-            tabView = new Dictionary(prefs:prefs);
-            break;
-          case 2:
-            tabView = new WordList(prefs:prefs);
-            break;
-          case 3:
-            tabView = new Mine(prefs:prefs);
-            break;
-          default:
-            tabView = new RememberVocab(client: client);
-        }
+    pageController.animateToPage(
+        index, duration: const Duration(milliseconds: 300),
+        curve: Curves.ease);
+  }
+
+  pageChanged(int page){
+    setState(() {
+      currentIndex = page;        
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: tabView,
+      body: new FutureBuilder(
+        builder: (BuildContext context, snapshot){
+          if(snapshot.hasData){
+            return new PageView(
+              controller: pageController,
+              onPageChanged: pageChanged, 
+              children: <Widget>[
+                new MaterialApp(home: new RememberVocab(prefs:snapshot.data),),
+                new MaterialApp(home: new Dictionary(),),
+                new MaterialApp(home: new WordList(prefs:snapshot.data),),
+                new MaterialApp(home: new Mine(prefs:snapshot.data),),
+              ],
+            );
+          }
+        },
+        future: initPrefs(),
+      ),
       bottomNavigationBar: new BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: _onTap,

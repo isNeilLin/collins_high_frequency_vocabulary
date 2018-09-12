@@ -19,11 +19,18 @@ class WordDetailState extends State<WordDetail> {
   bool showSentence;
 
   @override
-  initState(){
+  void initState(){
     super.initState();
-    showCn = widget.prefs.getBool('showCn');
-    showCollins = widget.prefs.getBool('showcollins');
-    showSentence = widget.prefs.getBool('sentence');
+    setState(() {
+      showCn = widget.prefs.getBool('showCn');
+      showCollins = widget.prefs.getBool('showcollins');
+      showSentence = widget.prefs.getBool('sentence');
+    });
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
   }
 
   Widget _getPhMp3(){

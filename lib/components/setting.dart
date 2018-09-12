@@ -31,7 +31,8 @@ class MineState extends State<Mine> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Container(
+    return new Material(
+      child: new Container(
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -180,6 +181,7 @@ class MineState extends State<Mine> {
           )
         ],
       ),
+    ),
     );
   }
 }

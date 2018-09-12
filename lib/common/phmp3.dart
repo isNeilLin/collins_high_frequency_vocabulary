@@ -37,10 +37,13 @@ class PhMp3State extends State<PhMp3>{
   @override
   void dispose(){
     audioPlayer.stop();
-    setState((){
-      playing = false;
-    });
+    if(mounted){
+      setState((){
+        playing = false;
+      });
+    }
     _audioPlayerStateSubscription.cancel();
+    audioPlayer = null;
     super.dispose();
   }
 
@@ -48,7 +51,9 @@ class PhMp3State extends State<PhMp3>{
     initAudio();
     try{
       await audioPlayer.play(url);
-      setState(() => playing = true);
+      if(mounted){
+        setState(() => playing = true);
+      }
     }catch(e){
       stop();
     }
@@ -57,10 +62,13 @@ class PhMp3State extends State<PhMp3>{
   void stop() async {
     try{
       await audioPlayer.stop();
-      setState(() => playing = false);
+      if(mounted){
+        setState(() => playing = false);
+      }
     }catch(e){
-      print(e);
-      setState(() => playing = false);
+      if(mounted){
+        setState(() => playing = false);
+      }
     }
   }
 
@@ -89,7 +97,7 @@ class PhMp3State extends State<PhMp3>{
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Platform.isIOS ? new Icon(Icons.play_circle_outline,color: widget.color, size: 19.0,) : new Icon(
+          new Icon(
             playing ? Icons.pause_circle_outline : Icons.play_circle_outline,
             color: widget.color,
             size: 19.0,
@@ -98,12 +106,7 @@ class PhMp3State extends State<PhMp3>{
         ],
       ),
       onTap: (){
-        if(Platform.isIOS){
-          return;
-        }
-        if(widget.src.isEmpty){
-          audioController(widget.src);
-        }else{
+        if(widget.src.isNotEmpty){
           audioController(widget.src);
         }
       },

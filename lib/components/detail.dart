@@ -33,16 +33,15 @@ class MeansState extends State<Means> {
   void didUpdateWidget(Means oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    setState((){
-      means = false;
-    });
+    if(mounted){
+      setState((){
+        means = false;
+      });
+    }
   }
 
   @override
   void dispose(){
-    setState((){
-      means = false;
-    });
     super.dispose();
   }
 

@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:collins_vocabulary/model/word.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collins_vocabulary/common/detail_means.dart';
 
 class Dictionary extends StatefulWidget {
-  final SharedPreferences prefs;
-  Dictionary({Key key,this.prefs}): super(key:key);
+  Dictionary({Key key}): super(key:key);
 
   @override
   State<StatefulWidget> createState(){
@@ -18,38 +16,35 @@ class Dictionary extends StatefulWidget {
 class DictionaryState extends State<Dictionary> {
 
   Word curWord;
-  TextEditingController controller;
+  final TextEditingController controller = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      controller = new TextEditingController();
       curWord = null;   
     });
   }
 
   @override
   void dispose(){
-    setState(() {
-      controller.dispose();
-      curWord = null;      
-    });
+    controller.dispose();
     super.dispose();
   }
 
-  _onChanged(val) {
-    if(val == ''){
+  _onChanged(e) {
+    if(controller.text == ''){
       setState(() {
         curWord = null;
       });
     }
   }
 
-  _onSubmit(val) async{
+  _onSubmit(e) async{
+    final String val = controller.text;
     final response = await get('http://xtk.azurewebsites.net/BingDictService.aspx?Word=$val');
     setState(() {
-      if(val.toString().isEmpty){
+      if(val.isEmpty){
         curWord = null;
       }else{
         curWord = _translateResponse(response);

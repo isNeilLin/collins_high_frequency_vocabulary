@@ -37,12 +37,10 @@ class WordListState extends State<WordList> {
         child: new Row(
           children: <Widget>[
             new Expanded(
-              key: Key('value1'),
               child: new Container(
               child: new Column(
                 children: <Widget>[
                   new Expanded(
-                    key: Key('value2'),
                     child:new Container(
                     margin: const EdgeInsets.only(right: 10.0),
                     decoration: new BoxDecoration(
@@ -68,7 +66,6 @@ class WordListState extends State<WordList> {
                     ),
                   ),),
                   new Expanded(
-                    key: Key('value3'),
                     child: new Container(
                     margin: const EdgeInsets.only(top: 20.0,right: 10.0),
                     decoration: new BoxDecoration(
@@ -96,7 +93,6 @@ class WordListState extends State<WordList> {
               ),
             ),),
             new Expanded(
-              key: Key('value4'),
               child: new Container(
               child: new Column(
                 children: <Widget>[
@@ -124,7 +120,6 @@ class WordListState extends State<WordList> {
                     ),
                   ),),
                   new Expanded(
-                      key: Key('value5'),
                       child: new Container(
                       margin: const EdgeInsets.only(top: 20.0,left:10.0),
                       decoration: new BoxDecoration(

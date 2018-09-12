@@ -32,7 +32,6 @@ class DetailMeansState extends State<DetailMeans> {
   void dispose(){
     _audioPlayerStateSubscription.cancel();
     audioPlayer.stop();
-    audioPlayer = null;
     super.dispose();
   }
 

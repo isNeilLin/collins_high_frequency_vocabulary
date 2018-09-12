@@ -29,7 +29,6 @@ class VocabularyListState extends State<VocabularyList> {
 
   @override
   dispose(){
-    print('dispose');
     super.dispose();
   }
 
