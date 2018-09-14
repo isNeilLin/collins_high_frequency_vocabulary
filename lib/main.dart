@@ -102,6 +102,9 @@ class HomePageState extends State<HomePage>{
               ],
             );
           }
+          return new Center(
+            child: new CircularProgressIndicator(),
+          );
         },
         future: initPrefs(),
       ),

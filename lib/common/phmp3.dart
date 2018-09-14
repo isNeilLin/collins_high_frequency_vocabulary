@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayer2/audioplayer2.dart';
-import 'dart:io';
+import 'dart:async';
 
 class PhMp3 extends StatefulWidget {
   final src;
@@ -14,52 +14,46 @@ class PhMp3 extends StatefulWidget {
 
 class PhMp3State extends State<PhMp3>{
   bool playing = false;
+  String lastSrc = '';
+  var color;
   AudioPlayer audioPlayer;
-  var _audioPlayerStateSubscription;
+  StreamSubscription _audioPlayerStateSubscription;
 
   @override
   void initState() {
     super.initState();
     initAudio();
-    if(widget.autoplay){
-      play(widget.src);
-    }
-  }
-
-  @override
-  void didUpdateWidget(Widget ph3){
-    super.didUpdateWidget(ph3);
-    if(widget.autoplay){
-      play(widget.src);
-    }
   }
 
   @override
   void dispose(){
-    audioPlayer.stop();
-    if(mounted){
-      setState((){
-        playing = false;
-      });
-    }
+    stop();
     _audioPlayerStateSubscription.cancel();
-    audioPlayer = null;
     super.dispose();
   }
+  
+  @override
+  didUpdateWidget(oldWidget){
+    if(lastSrc != widget.src && widget.autoplay){
+      initAudio();
+    }
+  }
 
-  void play(url) async {
-    initAudio();
+  Future play(url) async {
     try{
       await audioPlayer.play(url);
       if(mounted){
-        setState(() => playing = true);
+        setState((){
+          lastSrc = url;
+          playing = true;
+        });
       }
     }catch(e){
       stop();
     }
   }
 
-  void stop() async {
+  Future stop() async {
     try{
       await audioPlayer.stop();
       if(mounted){
@@ -83,12 +77,15 @@ class PhMp3State extends State<PhMp3>{
   void initAudio(){
     audioPlayer = new AudioPlayer();
     _audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s){
-      if(s == AudioPlayerState.COMPLETED){
+      if(s == AudioPlayerState.STOPPED){
         stop();
       }
     }, onError: (msg){
       stop();
     });
+    if(widget.autoplay){
+      play(widget.src);
+    }
   }
 
   @override
@@ -106,6 +103,14 @@ class PhMp3State extends State<PhMp3>{
         ],
       ),
       onTap: (){
+        audioPlayer = new AudioPlayer();
+        _audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s){
+          if(s == AudioPlayerState.STOPPED){
+            stop();
+          }
+        }, onError: (msg){
+          stop();
+        });
         if(widget.src.isNotEmpty){
           audioController(widget.src);
         }
