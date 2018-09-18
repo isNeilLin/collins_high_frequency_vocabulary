@@ -15,7 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - audioplayer2 (from `Pods/.symlinks/plugins/audioplayer2-0.5.2/ios`)
-  - Flutter (from `Pods/.symlinks/flutter/ios`)
+  - Flutter (from `Pods/.symlinks/flutter/ios-release`)
   - path_provider (from `Pods/.symlinks/plugins/path_provider-0.4.1/ios`)
   - shared_preferences (from `Pods/.symlinks/plugins/shared_preferences-0.4.2/ios`)
   - sqflite (from `Pods/.symlinks/plugins/sqflite-0.11.2+4/ios`)
@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
   audioplayer2:
     :path: Pods/.symlinks/plugins/audioplayer2-0.5.2/ios
   Flutter:
-    :path: Pods/.symlinks/flutter/ios
+    :path: Pods/.symlinks/flutter/ios-release
   path_provider:
     :path: Pods/.symlinks/plugins/path_provider-0.4.1/ios
   shared_preferences:
