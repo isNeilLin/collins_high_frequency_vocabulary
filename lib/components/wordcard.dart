@@ -147,7 +147,6 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
       list = snapshot.data;
       currentItem = new Word().getDetail(list[currentIndex]);
       return new Container(
-        color: Colors.blueGrey,
         child: new Column(
           children: <Widget>[
             new Expanded(

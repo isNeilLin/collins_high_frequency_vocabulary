@@ -77,7 +77,7 @@ class PhMp3State extends State<PhMp3>{
   void initAudio(){
     audioPlayer = new AudioPlayer();
     _audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s){
-      if(s == AudioPlayerState.STOPPED){
+      if(s == AudioPlayerState.COMPLETED){
         stop();
       }
     }, onError: (msg){

@@ -74,9 +74,13 @@ class HomePageState extends State<HomePage>{
   }
 
   void _onTap(int index){
-    pageController.animateToPage(
+    if(currentIndex-index==1||index-currentIndex==1){
+      pageController.animateToPage(
         index, duration: const Duration(milliseconds: 300),
         curve: Curves.ease);
+    }else{
+      pageController.jumpToPage(index);
+    }
   }
 
   pageChanged(int page){
@@ -95,10 +99,10 @@ class HomePageState extends State<HomePage>{
               controller: pageController,
               onPageChanged: pageChanged, 
               children: <Widget>[
-                new MaterialApp(home: new RememberVocab(prefs:snapshot.data),),
-                new MaterialApp(home: new Dictionary(),),
-                new MaterialApp(home: new WordList(prefs:snapshot.data),),
-                new MaterialApp(home: new Mine(prefs:snapshot.data),),
+                new RememberVocab(prefs:snapshot.data),
+                new Dictionary(),
+                new WordList(prefs:snapshot.data),
+                new Mine(prefs:snapshot.data),
               ],
             );
           }

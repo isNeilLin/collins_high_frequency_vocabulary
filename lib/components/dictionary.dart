@@ -120,11 +120,16 @@ class DictionaryState extends State<Dictionary> {
             new Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
               child: new TextField(
-                style: const TextStyle(fontSize: 22.0,color: Colors.black87),
-                decoration: const InputDecoration(
+                style: new TextStyle(fontSize: 22.0,color: Colors.black87),
+                decoration: new InputDecoration(
                   hintText: 'Input the word here...',
                   hintStyle: const TextStyle(fontSize: 16.0),
-                  suffixIcon: const Icon(Icons.search),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: (){
+                      _onSubmit(null);
+                    },
+                  ),
                   contentPadding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0)
                 ),
                 controller: controller,

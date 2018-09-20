@@ -33,7 +33,6 @@ class WordListState extends State<WordList> {
       ),
       body: new Container(
         padding: const EdgeInsets.all(16.0),
-        color: Colors.blueGrey,
         child: new Row(
           children: <Widget>[
             new Expanded(
