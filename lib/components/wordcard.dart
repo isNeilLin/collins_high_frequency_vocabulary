@@ -267,6 +267,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         centerTitle: true,
         elevation: 0.0,
@@ -274,7 +275,8 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
       ),
       body: new FutureBuilder(
           future: getlist(),
-          builder: _builder
+          builder: _builder,
+          initialData: null,
       ),
     );
   }

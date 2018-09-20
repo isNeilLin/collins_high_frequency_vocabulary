@@ -26,6 +26,7 @@ class WordListState extends State<WordList> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         elevation: 0.0,
         centerTitle: true,

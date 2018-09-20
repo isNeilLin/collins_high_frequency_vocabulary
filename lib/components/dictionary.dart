@@ -115,7 +115,12 @@ class DictionaryState extends State<Dictionary> {
         title: new Text('词典'),
       ),
       body: new Container(
-        child: new Column(
+        child: new GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: (){
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: new Column(
           children: <Widget>[
             new Container(
               padding: EdgeInsets.symmetric(vertical: 8.0),
@@ -139,6 +144,7 @@ class DictionaryState extends State<Dictionary> {
             ),
             _getResult()
           ],
+        ),
         )
       )
     );
