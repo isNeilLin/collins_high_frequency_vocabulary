@@ -33,7 +33,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   initState() {
     super.initState();
     controller = new AnimationController(
-        duration: new Duration(milliseconds: 500),
+        duration: new Duration(milliseconds: 300),
         vsync: this
     );
     animation = new Tween(
@@ -56,6 +56,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   }
 
   statusListener(status){
+    print(status);
     if(status==AnimationStatus.completed && mounted){
       setState((){
         if(next==true && mounted){
@@ -146,117 +147,94 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
     if(snapshot.hasData){
       list = snapshot.data;
       currentItem = new Word().getDetail(list[currentIndex]);
-      return new Container(
-        child: new Column(
-          children: <Widget>[
-            new Expanded(
-              child: new SlideTransition(
-                position: animation,
-                textDirection: direction,
-                child:  new GestureDetector(
-                  child: new Container(
-                    margin: const EdgeInsets.all(16.0),
-                    width: 380.0,
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: new BorderRadius.circular(8.0),
-                      boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
-                    ),
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        new Container(
-                          padding: const EdgeInsets.only(top: 24.0,bottom:8.0),
-                          child: new Text(currentItem.text,style: new TextStyle(fontSize: 28.0,color: Colors.blue),),
-                        ),
-                        new Expanded(
-                            child: new Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                new Container(
-                                  child: _getPhMp3(),
-                                ),
-                                new Padding(padding: const EdgeInsets.only(top:10.0)),
-                                new Means(currentItem: currentItem,prefs: widget.prefs),
-                              ],
-                            )
-                        ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            new Expanded(
-                                child: new Container(
-                                  decoration: new BoxDecoration(
-                                    border: new Border(
-                                      right: const BorderSide(width: 1.0,color: Colors.grey),
-                                      top: const BorderSide(width: 1.0,color: Colors.grey),
-                                    ),
-                                  ),
-                                  child: new Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
-                                    child: new Center(
-                                      child:  new GestureDetector(
-                                          onTap: (){
-                                            _checkIsFinish(context,currentIndex+1,false);
-                                          },
-                                          child: new Text('不认识',style: new TextStyle(color: Colors.red,fontSize: 18.0),)
-                                      ),
-                                    ),
-                                  ),
-                                )
-                            ),
-                            new Expanded(
-                                child: new Container(
-                                  decoration: new BoxDecoration(
-                                    border: new Border(
-                                      right: const BorderSide(width: 1.0,color: Colors.grey),
-                                      top: const BorderSide(width: 1.0,color: Colors.grey),
-                                    ),
-                                  ),
-                                  child: new Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
-                                    child: new Center(
-                                      child: new GestureDetector(
-                                          onTap: (){
-                                            _checkIsFinish(context,currentIndex+1,false);
-                                          },
-                                          child: new Text('模糊',style: new TextStyle(color: Colors.blue,fontSize: 18.0),)
-                                      ),
-                                    ),
-                                  ),
-                                )
-                            ),
-                            new Expanded(
-                                child: new Container(
-                                  decoration: new BoxDecoration(
-                                    border: new Border(
-                                      top: const BorderSide(width: 1.0,color: Colors.grey),
-                                    ),
-                                  ),
-                                  child: new Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
-                                    child: new Center(
-                                      child: new GestureDetector(
-                                          onTap: (){
-                                            _checkIsFinish(context,currentIndex+1,true);
-                                          },
-                                          child: new Text('认识',style: new TextStyle(color: Colors.green,fontSize: 18.0),)
-                                      ),
-                                    ),
-                                  ),
-                                )
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+      return new Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          new Container(
+            padding: const EdgeInsets.only(top: 24.0,bottom:8.0),
+            child: new Text(currentItem.text,style: new TextStyle(fontSize: 28.0,color: Colors.blue),),
+          ),
+          new Expanded(
+              child: new Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new Container(
+                    child: _getPhMp3(),
                   ),
-                ),
+                  new Padding(padding: const EdgeInsets.only(top:10.0)),
+                  new Means(currentItem: currentItem,prefs: widget.prefs),
+                ],
+              )
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              new Expanded(
+                  child: new Container(
+                    decoration: new BoxDecoration(
+                      border: new Border(
+                        right: const BorderSide(width: 1.0,color: Colors.grey),
+                        top: const BorderSide(width: 1.0,color: Colors.grey),
+                      ),
+                    ),
+                    child: new Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
+                      child: new Center(
+                        child:  new GestureDetector(
+                            onTap: (){
+                              _checkIsFinish(context,currentIndex+1,false);
+                            },
+                            child: new Text('不认识',style: new TextStyle(color: Colors.red,fontSize: 18.0),)
+                        ),
+                      ),
+                    ),
+                  )
               ),
-            ),
-          ],
-        ),
+              new Expanded(
+                  child: new Container(
+                    decoration: new BoxDecoration(
+                      border: new Border(
+                        right: const BorderSide(width: 1.0,color: Colors.grey),
+                        top: const BorderSide(width: 1.0,color: Colors.grey),
+                      ),
+                    ),
+                    child: new Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
+                      child: new Center(
+                        child: new GestureDetector(
+                            onTap: (){
+                              _checkIsFinish(context,currentIndex+1,false);
+                            },
+                            child: new Text('模糊',style: new TextStyle(color: Colors.blue,fontSize: 18.0),)
+                        ),
+                      ),
+                    ),
+                  )
+              ),
+              new Expanded(
+                  child: new Container(
+                    decoration: new BoxDecoration(
+                      border: new Border(
+                        top: const BorderSide(width: 1.0,color: Colors.grey),
+                      ),
+                    ),
+                    child: new Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0,vertical: 10.0),
+                      child: new Center(
+                        child: new GestureDetector(
+                            onTap: (){
+                              _checkIsFinish(context,currentIndex+1,true);
+                            },
+                            child: new Text('认识',style: new TextStyle(color: Colors.green,fontSize: 18.0),)
+                        ),
+                      ),
+                    ),
+                  )
+              ),
+            ],
+          ),
+        ],
       );
     }
     return new Center(
@@ -273,10 +251,33 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
         elevation: 0.0,
         title: new Text('柯林斯高频词汇'),
       ),
-      body: new FutureBuilder(
-          future: getlist(),
-          builder: _builder,
-          initialData: null,
+      body: new Container(
+        child: new Column(
+          children: <Widget>[
+            new Expanded(
+              child: new SlideTransition(
+                position: animation,
+                textDirection: direction,
+                child:  new GestureDetector(
+                  child: new Container(
+                    margin: const EdgeInsets.all(16.0),
+                    width: 380.0,
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.circular(8.0),
+                      boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
+                    ),
+                    child: new FutureBuilder(
+                        future: getlist(),
+                        builder: _builder,
+                        initialData: null,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

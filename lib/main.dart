@@ -65,7 +65,10 @@ class HomePageState extends State<HomePage>{
   @override
   void initState() {
     super.initState();
-    pageController = new PageController(initialPage: currentIndex);
+    pageController = new PageController(
+      initialPage: currentIndex,
+      keepPage: true
+    );
   }
   @override
   void dispose() {
@@ -74,13 +77,14 @@ class HomePageState extends State<HomePage>{
   }
 
   void _onTap(int index){
-    if(currentIndex-index==1||index-currentIndex==1){
+    pageController.jumpToPage(index);
+    /* if((currentIndex-index).abs()==1){
       pageController.animateToPage(
         index, duration: const Duration(milliseconds: 300),
         curve: Curves.ease);
     }else{
       pageController.jumpToPage(index);
-    }
+    } */
   }
 
   pageChanged(int page){
