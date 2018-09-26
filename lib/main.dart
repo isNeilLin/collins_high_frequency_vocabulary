@@ -77,14 +77,14 @@ class HomePageState extends State<HomePage>{
   }
 
   void _onTap(int index){
-    pageController.jumpToPage(index);
-    /* if((currentIndex-index).abs()==1){
+    // pageController.jumpToPage(index);
+    if((currentIndex-index).abs()==1){
       pageController.animateToPage(
         index, duration: const Duration(milliseconds: 300),
         curve: Curves.ease);
     }else{
       pageController.jumpToPage(index);
-    } */
+    }
   }
 
   pageChanged(int page){

@@ -28,10 +28,12 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   AnimationController controller;
   Animation<Offset> animation;
   TextDirection direction;
+  Future _future;
 
   @override
   initState() {
     super.initState();
+    _future = getlist();
     controller = new AnimationController(
         duration: new Duration(milliseconds: 300),
         vsync: this
@@ -105,6 +107,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
   }
 
   Future<List> getlist() async{
+    await Future.delayed(Duration(milliseconds:300));
     final int level = await getLevel();
     List stuiedWords = await client.queryAll();
     final wholeList = await new Word().getList(level);
@@ -131,6 +134,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
       if(know){
         setState(() {
           direction = TextDirection.ltr;
+          next = true;
         });
         await client.insert(currentItem);
       }else{
@@ -268,7 +272,7 @@ class RememberVocabState extends State<RememberVocab> with SingleTickerProviderS
                       boxShadow: [new BoxShadow(color: Colors.black45,offset: Offset.zero,blurRadius: 5.0,spreadRadius: 0.1)],
                     ),
                     child: new FutureBuilder(
-                        future: getlist(),
+                        future: _future,
                         builder: _builder,
                         initialData: null,
                     ),
